@@ -1,4 +1,4 @@
-# connected components
+# graphlet components
 from typing import List
 from graph import Graph
 

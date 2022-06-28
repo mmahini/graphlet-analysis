@@ -1,4 +1,4 @@
-# connected components
+# graph generator
 from typing import List
 from graph import Graph
 
