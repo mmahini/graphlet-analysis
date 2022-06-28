@@ -1,2 +1,3 @@
 # graphlet-analysis
-Graph analysis using graphlets
+Graph analysis using graphlets.
+Graphlets are small structures in the graph.
