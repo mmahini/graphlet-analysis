@@ -2,7 +2,7 @@
 # Output : every line is the list of vertices of one component.
 
 from typing import List
-from graph import Graph
+from entities.graph import Graph
 
 def dfs(g: Graph, v: int) -> str:
     g.mark[v] = True

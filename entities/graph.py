@@ -1,4 +1,5 @@
 # Graph class and all of graph functions
+from utils.singleton import singleton
 
 from typing import List
 from random import randint
@@ -7,7 +8,7 @@ class Graph:
     # Initialize an empty graph with n vertices and e edges
     # Initialize vertices neighborhood list (nei)
     # Initialize vertices marks for algorithms (mark)
-    def __init__(self, n: int, e: int):
+    def __init__(self, n : int = 0, e : int = 0):
         self.n = n
         self.e = e
         self.nei = list()
@@ -17,6 +18,9 @@ class Graph:
             self.nei.append(set())
         for _ in range(0, self.n):
             self.mark.append(False)
+
+    def has_edge(self, v : int, u : int) -> bool:
+        return u in self.nei[v]
 
     # reset mark array to "False" for all vertices
     def reset_marks(self):
@@ -98,3 +102,10 @@ class Graph:
             if i in self.nei[v]:
                 e = e + 1
         return e
+
+
+@singleton
+class GraphFactory():
+    @staticmethod
+    def get_instance() -> Graph:
+        return Graph(0,0)
