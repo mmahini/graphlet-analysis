@@ -28,7 +28,7 @@ class GraphletStatistics():
             print(f"{i}: {self.graphlet_cnt[i]}")
 
     def calculate_frequencies(self):
-        for i in range(0,NUM_OF_GRAPHLETS):
+        for i in range(0, NUM_OF_GRAPHLETS):
             self.graphlet_freq[i] = self.graphlet_cnt[i] / self.total_num_of_graphlets
 
     def write_frequencies(self):

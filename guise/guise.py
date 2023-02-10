@@ -1,6 +1,7 @@
 from entities.graphlet import SubGraphlet, SubGraphletFactory, NUM_OF_GRAPHLETS
 from entities.graphlet_statistics import GraphletStatistics
 from entities.graph import Graph
+from random import randint
 
 def random_neighbor(g: Graph, sub_graphlet: SubGraphlet) -> SubGraphlet:
     neighbor_vertices = sub_graphlet.get_neighbor_vertices(g)
@@ -29,7 +30,10 @@ def random_neighbor(g: Graph, sub_graphlet: SubGraphlet) -> SubGraphlet:
         sg.add(v)
         neighbors.append(sg)
 
-    # TODO : random select from neighbors
+    # random select from neighbors
+    count = len(neighbors)
+    x = randint(0, count)
+    return neighbors[x]
     
 def get_initial_graphlet(g: Graph) -> SubGraphlet:
     sub_graphlet : SubGraphlet = SubGraphletFactory().get_instance(g)
@@ -52,21 +56,22 @@ def get_initial_graphlet(g: Graph) -> SubGraphlet:
 def calc_stationary_steps(g: Graph) -> int:
     return 100*1000
 
-def get_initial_stationary_point(g: Graph, sub_graphlet: SubGraphlet) -> SubGraphlet:
-    stationary_steps = calc_stationary_steps(g)
+def get_initial_stationary_point(g: Graph, sub_graphlet: SubGraphlet, stationary_steps: int) -> SubGraphlet:
     for i in range(0, stationary_steps):
         sub_graphlet = random_neighbor(sub_graphlet)
     return sub_graphlet
 
-def guise_algorithm(g: Graph, steps: int):
+def guise_algorithm(g: Graph, stationary_steps: int, steps: int):
     random_sub_graphlet : SubGraphlet = get_initial_graphlet()
-    random_sub_graphlet = get_initial_stationary_point(random_sub_graphlet)
+    random_sub_graphlet = get_initial_stationary_point(random_sub_graphlet, stationary_steps)
     
     gs : GraphletStatistics = GraphletStatistics(g)
     for i in range(0, steps):
         random_sub_graphlet = random_neighbor(random_sub_graphlet)        
         random_sub_graphlet.write_all()
         gs.plus_one(random_sub_graphlet.get_graphlet_type())
+
+        print(random_sub_graphlet)
     
     gs.calculate_frequencies()
     gs.write_frequencies()    
