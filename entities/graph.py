@@ -50,6 +50,9 @@ class Graph(ABC):
                 self.dfs(u)
 
     def is_connected(self) -> bool:
+        if self.get_num_edges() < 1:
+            return False
+
         self.reset_marks()
         start = -1
         for v in self.vertices:

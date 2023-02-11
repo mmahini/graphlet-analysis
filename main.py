@@ -5,7 +5,18 @@ from graph_algorithms.graph_utils import GraphUtils
 from guise.guise import guise_algorithm
 
 
-def test1():
+def generate_random_graph():
+    print("input vertices: ")
+    n = int(input())
+    print("input edges: ")
+    e = int(input())
+
+    factory = GraphFactory()
+    g: Graph = factory.gen_instance(n, e)
+    g.write()
+
+
+def test_graphlet_generate():
     factory = GraphFactory()
     g: Graph = factory.load_graph_from_cmd()
     print(g)
@@ -16,22 +27,6 @@ def test1():
     gl.add(4)
     gl.add(5)
     print(gl)
-
-
-def test2():
-    n = int(input())
-    e = int(input())
-
-    factory = GraphFactory()
-    g: Graph = factory.gen_instance(n, e)
-    g.write()
-
-
-def test3():
-    graphlet_templates = GraphletTemplates().list()
-    for (k, graphlet) in graphlet_templates.items():
-        print(f"{k} ----------------")
-        print(graphlet)
 
 
 def test_graph_templates():
@@ -52,7 +47,7 @@ def test_guise():
     g: Graph = factory.load_graph_from_cmd()
     print(g)
 
-    guise_algorithm(g, 0, 10)
+    guise_algorithm(g, 1, 10)
 
 
 if __name__ == "__main__":
