@@ -5,20 +5,21 @@ from typing import List
 from random import randint
 from abc import ABC
 
+
 class Graph(ABC):
     # Initialize an empty graph with n vertices and e edges
     # Initialize vertices neighborhood list (nei)
     # Initialize vertices marks for algorithms (mark)
     def __init__(self):
         self.e = -1
-        self.vertices : set[int] = set()
+        self.vertices: set[int] = set()
         self.mark = dict()
         self.nei = dict()
 
     def get_num_edges(self):
         if self.e != -1:
             return self.e
-        
+
         self.e = 0
         for v in self.vertices:
             self.e += self.degree(v)
@@ -63,10 +64,10 @@ class Graph(ABC):
 
     def remove(self, v: int):
         self.vertices.remove(v)
-        self.mark.remove(v)
+        self.mark.pop(v)
         for u in self.nei[v]:
             self.nei[u].remove(v)
-        self.nei.remove(v)
+        self.nei.pop(v)
 
     # generate an string for graph based on it's adjacency list
     def __str__(self) -> str:
@@ -81,7 +82,7 @@ class Graph(ABC):
         s: str = "Adjacency List:\n"
         for v in self.vertices:
             s = s + f"{v}: ["
-            start : bool = True
+            start: bool = True
             for u in self.nei[v]:
                 if not start:
                     s = s + " "
@@ -90,7 +91,7 @@ class Graph(ABC):
             s = s + "]\n"
         return s
 
-    def has_edge(self, v : int, u : int) -> bool:
+    def has_edge(self, v: int, u: int) -> bool:
         return u in self.nei[v]
 
     # write graph to output. n, e and each edge is in separate line
@@ -107,10 +108,10 @@ class Graph(ABC):
                 if u > v:
                     print(f"{v} {u}")
 
-
     # find number of edges in inductive sub-graph limited to "lst" as its vertices
+
     def countE(self, lst: List) -> int:
-        e : int = 0
+        e: int = 0
         for i in lst:
             for j in lst:
                 if i in self.nei[j]:
@@ -120,7 +121,7 @@ class Graph(ABC):
 
     # find degree of vertex "v" in inductive sub-graph that's limited to "lst" as its vertices
     def subgraph_degree(self, v: int, lst: List) -> int:
-        e : int = 0
+        e: int = 0
         for i in lst:
             if i in self.nei[v]:
                 e = e + 1
@@ -136,15 +137,15 @@ class GraphFactory():
     def create_instance_with_n_vertices_from(self, n: int) -> Graph:
         g = self.create_instance()
 
-        for i in range(0,n):
+        for i in range(0, n):
             g.vertices.add(i)
-        
+
         g.init_marks()
         g.init_nei()
 
         return g
 
-    def create_instance_with_sets(self,  n, edges : set[list[int]]):
+    def create_instance_with_sets(self,  n, edges: set[list[int]]):
         g = self.create_instance_with_n_vertices_from(n)
 
         for e in edges:
@@ -152,7 +153,7 @@ class GraphFactory():
             u = e[1]
             g.nei[v].add(u)
             g.nei[u].add(v)
-        
+
         return g
 
     # generate a graph with n vertices and e edges.
@@ -160,7 +161,7 @@ class GraphFactory():
     def gen_instance(self, n: int, e: int) -> Graph:
         g = self.create_instance_with_n_vertices_from(n)
 
-        i : int = 0
+        i: int = 0
         while i < e:
             v = randint(0, n-1)
             u = randint(0, n-1)
@@ -169,7 +170,7 @@ class GraphFactory():
                 g.nei[v].add(u)
                 g.nei[u].add(v)
         return g
-                
+
     # load a graph from input. n, e and each edge is in separate line
     def load_graph_from_cmd(self) -> Graph:
         n = int(input())

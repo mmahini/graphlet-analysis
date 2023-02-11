@@ -8,6 +8,7 @@ from entities.graph import Graph
 
 NUM_OF_GRAPHLETS = 30
 
+
 class InducedSubGraph(Graph):
     def __init__(self, graph: Graph):
         super(InducedSubGraph, self).__init__()
@@ -19,7 +20,7 @@ class InducedSubGraph(Graph):
     def make_nei(self):
         for v in self.vertices:
             for u in self.vertices:
-                if self.graph.has_edge(v,u):
+                if self.graph.has_edge(v, u):
                     self.nei[v].add(u)
 
     def get_neighbor_vertices(self, graph: Graph) -> set:
@@ -35,9 +36,10 @@ class InducedSubGraph(Graph):
         self.mark[v] = False
         self.nei[v] = set()
         for u in self.vertices:
-            if self.graph.has_edge(v,u):
+            if self.graph.has_edge(v, u):
                 self.nei[v].add(u)
                 self.nei[u].add(v)
+
 
 class SubGraphlet(InducedSubGraph):
     def get_graphlet_type(self) -> int:
@@ -50,13 +52,13 @@ class SubGraphlet(InducedSubGraph):
 
 @singleton
 class SubGraphletFactory():
-    def get_instance(g: Graph) -> SubGraphlet:
+    def get_instance(self, g: Graph) -> SubGraphlet:
         sub_graphlet = SubGraphlet(g)
         sub_graphlet.make_nei()
         return sub_graphlet
 
-    def get_copy(sub_graphlet: SubGraphlet) -> SubGraphlet:
-        new_graphlet : SubGraphlet(sub_graphlet.graph)
+    def get_copy(self, sub_graphlet: SubGraphlet) -> SubGraphlet:
+        new_graphlet = SubGraphlet(sub_graphlet.graph)
         for v in sub_graphlet.vertices:
             new_graphlet.add(v)
         return new_graphlet

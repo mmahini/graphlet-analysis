@@ -4,6 +4,7 @@
 from typing import List
 from entities.graph import Graph
 
+
 def dfs(g: Graph, v: int) -> str:
     g.mark[v] = True
     dfs_str: str = str(v)
@@ -23,7 +24,7 @@ def cc(g: Graph) -> str:
 
 
 if __name__ == "__main__":
-    g: Graph = Graph(0,0)
+    g: Graph = Graph(0, 0)
     g.load()
-    
-    print(cc(g))    
+
+    print(cc(g))
