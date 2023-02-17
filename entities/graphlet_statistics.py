@@ -12,7 +12,6 @@ class GraphletStatistics():
         self.graphlet_cnt: List = list()
         for _ in range(0, NUM_OF_GRAPHLETS):
             self.graphlet_cnt.append(0)
-        self.graphlet_cnt[0] = g.e       # G0 : pair of connected vertices
 
         self.graphlet_freq: List = list()
         for _ in range(0, NUM_OF_GRAPHLETS):
