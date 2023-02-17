@@ -5,12 +5,12 @@
 #   2nd: graph connected components
 
 from typing import List
-from graph import Graph
+from entities.graph import Graph
 from connected_components import cc
 from exact_graphlet_count import exact_graphlet_count
 
 if __name__ == "__main__":
-    g: Graph = Graph(0,0)
+    g: Graph = Graph(0, 0)
     g.load()
 
     print(g)

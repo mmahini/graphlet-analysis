@@ -2,7 +2,8 @@
 # Output : every line is the list of vertices of one component.
 
 from typing import List
-from graph import Graph
+from entities.graph import Graph
+
 
 def dfs(g: Graph, v: int) -> str:
     g.mark[v] = True
@@ -23,7 +24,7 @@ def cc(g: Graph) -> str:
 
 
 if __name__ == "__main__":
-    g: Graph = Graph(0,0)
+    g: Graph = Graph(0, 0)
     g.load()
-    
-    print(cc(g))    
+
+    print(cc(g))

@@ -8,7 +8,7 @@ if __name__ == "__main__":
     n = int(input())
     e = int(input())
 
-    g: Graph = Graph(0,0)
+    g: Graph = Graph(0, 0)
     g.gen(n, e)
 
     g.write()
