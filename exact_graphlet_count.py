@@ -184,7 +184,7 @@ def gc5(g: Graph, gs: GraphletStatistics) -> None:
 def exact_graphlet_count(g: Graph) -> None:
     gs: GraphletStatistics = GraphletStatistics(g)
 
-    self.graphlet_cnt[0] = g.e       # G0 : pair of connected vertices
+    gs.graphlet_cnt[0] = g.countE()      # G0 : pair of connected vertices
     gc3(g, gs)
     gc4(g, gs)
     gc5(g, gs)
