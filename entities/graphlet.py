@@ -23,10 +23,10 @@ class InducedSubGraph(Graph):
                 if self.graph.has_edge(v, u):
                     self.nei[v].add(u)
 
-    def get_neighbor_vertices(self, graph: Graph) -> set:
+    def get_neighbor_vertices(self) -> set:
         neighbor_vertices = set()
         for v in self.vertices:
-            for u in graph.nei[v]:
+            for u in self.graph.nei[v]:
                 if u not in self.vertices:
                     neighbor_vertices.add(u)
         return neighbor_vertices
