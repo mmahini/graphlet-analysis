@@ -3,6 +3,7 @@ from entities.graphlet import SubGraphletFactory, SubGraphlet
 from entities.graphlet_templates import GraphletTemplates
 from graph_algorithms.graph_utils import GraphUtils
 from guise.guise import guise_algorithm
+from exact_graphlet_count import exact_graphlet_count
 
 
 def generate_random_graph():
@@ -50,5 +51,14 @@ def test_guise():
     guise_algorithm(g, 1, 10)
 
 
+def exact_count():
+    factory = GraphFactory()
+    g: Graph = factory.load_graph_from_cmd()
+    print(g)
+
+    exact_graphlet_count(g)
+
+
 if __name__ == "__main__":
-    test_guise()
+    exact_count()
+#    test_guise()

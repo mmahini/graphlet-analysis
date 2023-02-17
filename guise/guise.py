@@ -1,7 +1,7 @@
 from entities.graphlet import SubGraphlet, SubGraphletFactory, NUM_OF_GRAPHLETS
 from entities.graphlet_statistics import GraphletStatistics
 from entities.graph import Graph
-from random import Random
+from random import randint
 
 
 def random_neighbor(g: Graph, sub_graphlet: SubGraphlet) -> SubGraphlet:
@@ -11,28 +11,31 @@ def random_neighbor(g: Graph, sub_graphlet: SubGraphlet) -> SubGraphlet:
 
     # sub_graphlet - {i} , sub_graphlet - {i} + {v}
     for i in sub_graphlet.vertices:
-        sg: SubGraphlet = SubGraphletFactory().get_copy(sub_graphlet)
 
-        # sub_graphlet - {i}
-        sg.remove(i)
-        if sg.is_connected():
-            neighbors.append(sg)
+        if sub_graphlet.countV() > 2:
+            # sub_graphlet - {i}
+            sg: SubGraphlet = SubGraphletFactory().get_copy(sub_graphlet)
+            sg.remove(i)
+            if sg.is_connected():
+                neighbors.append(sg)
 
         # sub_graphlet - {i} + {v}
         for v in neighbor_vertices:
+            sg: SubGraphlet = SubGraphletFactory().get_copy(sub_graphlet)
             sg.add(v)
             if sg.is_connected():
                 neighbors.append(sg)
-            sg.remove(v)
 
-    # sub_graphlet + {v}
-    for v in neighbor_vertices:
-        sg: SubGraphlet = SubGraphletFactory().get_copy(sub_graphlet)
-        sg.add(v)
-        neighbors.append(sg)
+    if sub_graphlet.countV() < 5:
+        # sub_graphlet + {v}
+        for v in neighbor_vertices:
+            sg: SubGraphlet = SubGraphletFactory().get_copy(sub_graphlet)
+            sg.add(v)
+            neighbors.append(sg)
 
     # random select from neighbors
-    return Random().choice(neighbors)
+    index = randint(0, len(neighbors)-1)
+    return neighbors[index]
 
 
 def get_initial_graphlet(g: Graph) -> SubGraphlet:

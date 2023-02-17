@@ -1,14 +1,14 @@
 # Graphlet count
 
 from typing import List
-from graph import Graph
+from entities.graph import Graph
 from entities.graphlet_statistics import GraphletStatistics
 
 # find exact number of graphlets with 3 vertices
 
 
 def gc3(g: Graph, gs: GraphletStatistics) -> None:
-    for v in range(0, g.n):
+    for v in g.vertices:
         for u in g.nei[v]:
             visited: set = {v, u}
 
@@ -28,7 +28,7 @@ def gc3(g: Graph, gs: GraphletStatistics) -> None:
 
 
 def gc4(g: Graph, gs: GraphletStatistics) -> None:
-    for v in range(0, g.n):
+    for v in g.vertices:
         for u in g.nei[v]:
             for w in g.nei[v]:
                 if w <= u:
@@ -39,7 +39,7 @@ def gc4(g: Graph, gs: GraphletStatistics) -> None:
                     if w not in g.nei[u] and w not in g.nei[x] and u not in g.nei[x]:
                         gs.plus_one(4)
 
-    for v in range(0, g.n):
+    for v in g.vertices:
         for u in g.nei[v]:
             for w in g.nei[u]:
                 if w == v:
@@ -47,7 +47,7 @@ def gc4(g: Graph, gs: GraphletStatistics) -> None:
                 for x in g.nei[w]:
                     if x == u or x == v:
                         continue
-                    e: int = g.countE([v, u, w, x])
+                    e: int = g.subgraph_countE([v, u, w, x])
                     if e == 6:
                         gs.plus_one(8)
                     elif e == 5:
@@ -68,7 +68,7 @@ def gc4(g: Graph, gs: GraphletStatistics) -> None:
 
 # find exact number of graphlets with 5 vertices
 def gc5(g: Graph, gs: GraphletStatistics) -> None:
-    for v in range(0, g.n):
+    for v in g.vertices:
         for u in g.nei[v]:
             for w in g.nei[v]:
                 if w <= u:
@@ -79,12 +79,12 @@ def gc5(g: Graph, gs: GraphletStatistics) -> None:
                     for y in g.nei[v]:
                         if y <= x:
                             continue
-                        e: int = g.countE([v, u, w, x, y])
+                        e: int = g.subgraph_countE([v, u, w, x, y])
                         deg: List = list()
                         for _ in range(0, 5):
                             deg.append(0)
                         for i in {u, w, x, y}:
-                            deg[g.degree(i, [v, u, w, x, y])] += 1
+                            deg[g.subgraph_degree(i, [v, u, w, x, y])] += 1
 
                         if e == 4:
                             gs.plus_one(23)
@@ -112,7 +112,7 @@ def gc5(g: Graph, gs: GraphletStatistics) -> None:
                         elif e == 10:
                             gs.plus_one(29)
 
-    for v in range(0, g.n):
+    for v in g.vertices:
         for u in g.nei[v]:
             for w in g.nei[u]:
                 if w == v:
@@ -123,12 +123,12 @@ def gc5(g: Graph, gs: GraphletStatistics) -> None:
                     for y in g.nei[x]:
                         if y == u or y == v or y == w:
                             continue
-                        e: int = g.countE([v, u, w, x, y])
+                        e: int = g.subgraph_countE([v, u, w, x, y])
                         deg: List = list()
                         for _ in range(0, 5):
                             deg.append(0)
                         for i in {v, u, w, x, y}:
-                            deg[g.degree(i, [v, u, w, x, y])] += 1
+                            deg[g.subgraph_degree(i, [v, u, w, x, y])] += 1
 
                         if e == 4:
                             gs.plus_one(9)
@@ -151,7 +151,7 @@ def gc5(g: Graph, gs: GraphletStatistics) -> None:
                         elif e == 7:
                             gs.plus_one(21)
 
-    for v in range(0, g.n):
+    for v in g.vertices:
         for u in g.nei[v]:
             for w in g.nei[u]:
                 if w == v:
@@ -163,7 +163,7 @@ def gc5(g: Graph, gs: GraphletStatistics) -> None:
                         if y == u or y == v or y == x:
                             continue
 
-                        e: int = g.countE([v, u, w, x, y])
+                        e: int = g.subgraph_countE([v, u, w, x, y])
                         if e == 4:
                             gs.plus_one(10)
 
@@ -189,10 +189,3 @@ def exact_graphlet_count(g: Graph) -> None:
     gc5(g, gs)
 
     gs.write()
-
-
-if __name__ == "__main__":
-    g: Graph = Graph(0, 0)
-    g.load()
-
-    exact_graphlet_count(g)

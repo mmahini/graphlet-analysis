@@ -16,7 +16,10 @@ class Graph(ABC):
         self.mark = dict()
         self.nei = dict()
 
-    def get_num_edges(self):
+    def countV(self):
+        return len(self.vertices)
+
+    def countE(self):
         if self.e != -1:
             return self.e
 
@@ -50,7 +53,7 @@ class Graph(ABC):
                 self.dfs(u)
 
     def is_connected(self) -> bool:
-        if self.get_num_edges() < 1:
+        if self.countE() < 1:
             return False
 
         self.reset_marks()
@@ -75,7 +78,7 @@ class Graph(ABC):
     # generate an string for graph based on it's adjacency list
     def __str__(self) -> str:
         n = len(self.vertices)
-        e = self.get_num_edges()
+        e = self.countE()
 
         s = f"{n} {e}"
         if self.is_connected():
@@ -113,7 +116,7 @@ class Graph(ABC):
 
     # find number of edges in inductive sub-graph limited to "lst" as its vertices
 
-    def countE(self, lst: List) -> int:
+    def subgraph_countE(self, lst: List) -> int:
         e: int = 0
         for i in lst:
             for j in lst:
