@@ -2,8 +2,9 @@ from entities.graph import Graph, GraphFactory
 from entities.graphlet import SubGraphletFactory, SubGraphlet
 from entities.graphlet_templates import GraphletTemplates
 from graph_algorithms.graph_utils import GraphUtils
+from graph_algorithms.gfd_algorithm import EpsilonDelta
 from guise.guise import Guise
-from exact_graphlet_count import exact_graphlet_count
+from exact.exact_graphlet_count import Exact
 from random import random
 
 
@@ -58,8 +59,34 @@ def exact_count():
     g: Graph = factory.load_graph_from_cmd()
     print(g)
 
-    exact_graphlet_count(g)
+    exact: Exact = Exact(g)
+    exact.run()
+
+
+def guise_error_calculation():
+    n = int(input())
+    e = int(input())
+
+    epsilonDelta = EpsilonDelta()
+
+    for i in range(0, 20):
+        print(f"run {i} ...")
+        factory = GraphFactory()
+        g: Graph = factory.gen_instance(n, e)
+        print(g)
+
+        exact: Exact = Exact(g)
+        exact.run()
+
+        guise: Guise = Guise(g)
+        guise.run(10000, 10000)
+
+        error = epsilonDelta.calc_error(guise, exact)
+        epsilonDelta.append_error(error)
+
+    epsilonDelta.calc_delta()
+    epsilonDelta.write()
 
 
 if __name__ == "__main__":
-    test_guise()
+    guise_error_calculation()

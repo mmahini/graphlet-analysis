@@ -103,7 +103,7 @@ class Graph(ABC):
     # write graph to output. n, e and each edge is in separate line
     def write(self):
         n = len(self.vertices)
-        e = self.get_num_edges()
+        e = self.countE()
 
         s = f"{n} {e}"
         if self.is_connected():
