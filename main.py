@@ -62,31 +62,5 @@ def exact_count():
     exact: Exact = Exact(g)
     exact.run()
 
-
-def guise_error_calculation():
-    n = int(input())
-    e = int(input())
-
-    epsilonDelta = EpsilonDelta()
-
-    for i in range(0, 20):
-        print(f"run {i} ...")
-        factory = GraphFactory()
-        g: Graph = factory.gen_instance(n, e)
-        print(g)
-
-        exact: Exact = Exact(g)
-        exact.run()
-
-        guise: Guise = Guise(g)
-        guise.run(10000, 10000)
-
-        error = epsilonDelta.calc_error(guise, exact)
-        epsilonDelta.append_error(error)
-
-    epsilonDelta.calc_delta()
-    epsilonDelta.write()
-
-
 if __name__ == "__main__":
-    guise_error_calculation()
+    exact_count()
