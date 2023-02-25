@@ -80,8 +80,7 @@ class Guise(GfdAglorithm):
                 neighbors = neighbors_of_neighbor
 
             if counting:
-                #                print(sub_graph)
-                self.gs.plus_one(sub_graph.get_graphlet_type())
+                self.gs.add_to_statistics(sub_graph)
 
         return sub_graph
 
