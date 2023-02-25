@@ -10,7 +10,7 @@ from exact.exact_graphlet_count import Exact
 
 def guise_error_calculation():
     n = int(input())
-    e = int(input())
+    p = float(input())
 
     epsilonDelta = EpsilonDelta()
 
@@ -19,7 +19,7 @@ def guise_error_calculation():
     for i in range(0, 20):
         print(f"run {i} ...")
         factory = GraphFactory()
-        g: Graph = factory.gen_instance(n, e)
+        g: Graph = factory.get_random_instance(n, p)
         print(g)
 
         exact: Exact = Exact(g)

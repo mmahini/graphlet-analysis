@@ -2,7 +2,7 @@
 from utils.singleton import singleton
 
 from typing import List
-from random import randint
+from random import randint, random
 from abc import ABC
 
 
@@ -162,19 +162,19 @@ class GraphFactory():
 
         return g
 
-    # generate a graph with n vertices and e edges.
-    # probability of selection of every edge is uniform.
-    def gen_instance(self, n: int, e: int) -> Graph:
+    # generate a graph like G(n,p) : Erdos-Renyi
+    # Graph has n vertices and every edge be with probability p
+    def get_random_instance(self, n: int, p: float) -> Graph:
         g = self.create_instance_with_n_vertices_from(n)
 
-        i: int = 0
-        while i < e:
-            v = randint(0, n-1)
-            u = randint(0, n-1)
-            if v != u and v not in g.nei[u]:
-                i += 1
-                g.nei[v].add(u)
-                g.nei[u].add(v)
+        for v in g.vertices:
+            for u in g.vertices:
+                if v >= u:
+                    continue
+                if random() <= p:
+                    g.nei[v].add(u)
+                    g.nei[u].add(v)
+
         return g
 
     # load a graph from input. n, e and each edge is in separate line
