@@ -1,4 +1,5 @@
 from entities.graph import Graph, GraphFactory
+from entities.orbit import Orbit
 from utils.singleton import singleton
 
 
@@ -74,3 +75,49 @@ class GraphletTemplates():
             5, [[0, 1], [0, 2], [0, 3], [0, 4], [1, 2], [1, 3], [1, 4], [2, 3], [2, 4], [3, 4]])
 
         return self.graphlets
+
+
+@singleton
+class OrbitTemplates():
+    def __init__(self):
+        self.initialized = False
+        self.orbits: dict[int, Orbit] = dict()
+
+    def list(self) -> dict[int, Orbit]:
+        if self.initialized:
+            return self.orbits
+
+        graphlets = GraphletTemplates().list()
+
+        # graphlet_type -> (orbit, vertex_id_in_graphlet_type)
+        self.orbits = {0: {(0, 0)},
+                       1: {(1, 0), (2, 1)},
+                       2: {(3, 0)},
+                       3: {(4, 0), (5, 1)},
+                       4: {(6, 1), (7, 0)},
+                       5: {(8, 3), (9, 1), (10, 0)},
+                       6: {(11, 0)},
+                       7: {(12, 1), (13, 0)},
+                       8: {(14, 0)},
+                       9: {(15, 0), (16, 1), (17, 2)},
+                       10: {(18, 0), (19, 1), (20, 2), (21, 3)},
+                       11: {(22, 4), (23, 3), (24, 0), (25, 1)},
+                       12: {(26, 4), (27, 0), (28, 1), (29, 3)},
+                       13: {(30, 4), (31, 0), (32, 1), (33, 3)},
+                       14: {(34, 4), (35, 0), (36, 1), (37, 3)},
+                       15: {(38, 0), (39, 1)},
+                       16: {(40, 0), (41, 1), (42, 4)},
+                       17: {(43, 3), (44, 0)},
+                       18: {(45, 4), (46, 0), (47, 1)},
+                       19: {(48, 1), (49, 0), (50, 3)},
+                       20: {(51, 1), (52, 0)},
+                       21: {(53, 0), (54, 1), (55, 4)},
+                       22: {(56, 1), (57, 0)},
+                       23: {(58, 1), (59, 0)},
+                       24: {(60, 0), (61, 1)},
+                       25: {(62, 0)},
+                       26: {(63, 0), (64, 1), (65, 4)},
+                       27: {(66, 4), (67, 0), (68, 2)},
+                       28: {(69, 1), (70, 0), (71, 2)},
+                       29: {(72, 0)},
+                       }
