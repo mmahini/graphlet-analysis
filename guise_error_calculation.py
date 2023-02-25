@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import time
 from concurrent.futures import ThreadPoolExecutor
 from entities.graph import Graph, GraphFactory
