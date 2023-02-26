@@ -1,5 +1,4 @@
 from entities.graph import Graph, GraphFactory
-from entities.orbit import Orbit
 from utils.singleton import singleton
 
 
@@ -13,28 +12,28 @@ class GraphletTemplates():
         if self.initialized:
             return self.graphlets
 
-        self.graphlets[0] = GraphFactory(
-        ).create_instance_with_sets(2, [[0, 1]])
-        self.graphlets[1] = GraphFactory(
-        ).create_instance_with_sets(3, [[0, 1], [1, 2]])
-        self.graphlets[2] = GraphFactory().create_instance_with_sets(3, [
-            [0, 1], [1, 2], [0, 2]])
-        self.graphlets[3] = GraphFactory().create_instance_with_sets(4, [
-            [0, 1], [1, 2], [2, 3]])
-        self.graphlets[4] = GraphFactory().create_instance_with_sets(4, [
-            [0, 1], [0, 2], [0, 3]])
-        self.graphlets[5] = GraphFactory().create_instance_with_sets(4, [
-            [0, 1], [0, 2], [1, 2], [1, 3]])
-        self.graphlets[6] = GraphFactory().create_instance_with_sets(4, [
-            [0, 1], [1, 2], [2, 3], [3, 0]])
+        self.graphlets[0] = GraphFactory().create_instance_with_sets(
+            2, [[0, 1]])
+        self.graphlets[1] = GraphFactory().create_instance_with_sets(
+            3, [[0, 1], [1, 2]])
+        self.graphlets[2] = GraphFactory().create_instance_with_sets(
+            3, [[0, 1], [1, 2], [0, 2]])
+        self.graphlets[3] = GraphFactory().create_instance_with_sets(
+            4, [[0, 1], [1, 2], [2, 3]])
+        self.graphlets[4] = GraphFactory().create_instance_with_sets(
+            4, [[0, 1], [0, 2], [0, 3]])
+        self.graphlets[5] = GraphFactory().create_instance_with_sets(
+            4, [[0, 1], [0, 2], [1, 2], [1, 3]])
+        self.graphlets[6] = GraphFactory().create_instance_with_sets(
+            4, [[0, 1], [1, 2], [2, 3], [3, 0]])
         self.graphlets[7] = GraphFactory().create_instance_with_sets(
             4, [[0, 1], [1, 2], [1, 3], [2, 0], [2, 3]])
         self.graphlets[8] = GraphFactory().create_instance_with_sets(
             4, [[0, 1], [0, 2], [0, 3], [1, 2], [1, 3], [2, 3]])
-        self.graphlets[9] = GraphFactory().create_instance_with_sets(5, [
-            [0, 1], [1, 2], [2, 3], [3, 4]])
-        self.graphlets[10] = GraphFactory().create_instance_with_sets(5, [
-            [0, 1], [1, 2], [2, 3], [2, 4]])
+        self.graphlets[9] = GraphFactory().create_instance_with_sets(
+            5, [[0, 1], [1, 2], [2, 3], [3, 4]])
+        self.graphlets[10] = GraphFactory().create_instance_with_sets(
+            5, [[0, 1], [1, 2], [2, 3], [2, 4]])
         self.graphlets[11] = GraphFactory().create_instance_with_sets(
             5, [[0, 1], [0, 2], [0, 3], [1, 2], [3, 4]])
         self.graphlets[12] = GraphFactory().create_instance_with_sets(
@@ -59,8 +58,8 @@ class GraphletTemplates():
             5, [[0, 1], [0, 2], [0, 3], [1, 3], [1, 4], [2, 3], [2, 4]])
         self.graphlets[22] = GraphFactory().create_instance_with_sets(
             5, [[0, 1], [0, 2], [0, 3], [0, 4], [1, 2], [1, 4], [2, 3], [3, 4]])
-        self.graphlets[23] = GraphFactory().create_instance_with_sets(5, [
-            [0, 1], [0, 2], [0, 3], [0, 4]])
+        self.graphlets[23] = GraphFactory().create_instance_with_sets(
+            5, [[0, 1], [0, 2], [0, 3], [0, 4]])
         self.graphlets[24] = GraphFactory().create_instance_with_sets(
             5, [[0, 1], [0, 2], [0, 3], [1, 4], [2, 4], [3, 4]])
         self.graphlets[25] = GraphFactory().create_instance_with_sets(
@@ -81,13 +80,12 @@ class GraphletTemplates():
 class OrbitTemplates():
     def __init__(self):
         self.initialized = False
-        self.orbits: dict[int, Orbit] = dict()
+        self.orbits: dict[int, set()] = dict()
 
-    def list(self) -> dict[int, Orbit]:
+    def list(self) -> dict[int, set()]:
         if self.initialized:
             return self.orbits
-
-        graphlets = GraphletTemplates().list()
+        self.initialized = True
 
         # graphlet_type -> (orbit, vertex_id_in_graphlet_type)
         self.orbits = {0: {(0, 0)},
@@ -106,7 +104,7 @@ class OrbitTemplates():
                        13: {(30, 4), (31, 0), (32, 1), (33, 3)},
                        14: {(34, 4), (35, 0), (36, 1), (37, 3)},
                        15: {(38, 0), (39, 1)},
-                       16: {(40, 0), (41, 1), (42, 4)},
+                       16: {(40, 0), (41, 2), (42, 4)},
                        17: {(43, 3), (44, 0)},
                        18: {(45, 4), (46, 0), (47, 1)},
                        19: {(48, 1), (49, 0), (50, 3)},
@@ -121,3 +119,5 @@ class OrbitTemplates():
                        28: {(69, 1), (70, 0), (71, 2)},
                        29: {(72, 0)},
                        }
+
+        return self.orbits
