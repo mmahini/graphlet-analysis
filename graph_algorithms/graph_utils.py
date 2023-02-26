@@ -32,10 +32,9 @@ class GraphUtils():
         if not self.is_equal_degree_map(g1, g2):
             return False
 
-        if g1.get_num_edges() == 6:  # graphlet number 24 or 27
+        if g1.countE() == 6:  # graphlet number 24 or 27
             return self.get_g1_type_between_graphlet_24_27(g1) == self.get_g1_type_between_graphlet_24_27(g2)
-
-        if g1.get_num_edges() == 5:  # graphlet number 11 or 12
+        if g1.countE() == 5:  # graphlet number 11 or 12
             return self.get_g1_type_between_graphlet_11_12(g1) == self.get_g1_type_between_graphlet_11_12(g2)
 
         return True
