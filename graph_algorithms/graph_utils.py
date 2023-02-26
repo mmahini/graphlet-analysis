@@ -1,4 +1,5 @@
 from entities.graph import Graph
+from entities.graphlet_templates import GraphletTemplates
 from utils.singleton import singleton
 
 
@@ -28,18 +29,32 @@ class GraphUtils():
 
         return True
 
+    def calc_graphlet_type(self, g : Graph) -> int:
+        graphlet_templates = GraphletTemplates().list()
+        for (k, graphlet) in graphlet_templates.items():
+            if self.is_equal_degree_map(g, graphlet):
+                # handle special cases
+                if k == 11:
+                    return self.get_type_between_graphlet_11_12(g)
+                if k == 24:
+                    return self.get_type_between_graphlet_24_27(g)
+                return k
+        
+        print(g)
+        raise ValueError('wrong calculation of graphlet type')
+
     def is_isomorph(self, g1: Graph, g2: Graph) -> bool:
         if not self.is_equal_degree_map(g1, g2):
             return False
 
         if g1.countE() == 6:  # graphlet number 24 or 27
-            return self.get_g1_type_between_graphlet_24_27(g1) == self.get_g1_type_between_graphlet_24_27(g2)
+            return self.get_type_between_graphlet_24_27(g1) == self.get_type_between_graphlet_24_27(g2)
         if g1.countE() == 5:  # graphlet number 11 or 12
-            return self.get_g1_type_between_graphlet_11_12(g1) == self.get_g1_type_between_graphlet_11_12(g2)
+            return self.get_type_between_graphlet_11_12(g1) == self.get_type_between_graphlet_11_12(g2)
 
         return True
 
-    def get_g1_type_between_graphlet_11_12(self, g: Graph) -> int:
+    def get_type_between_graphlet_11_12(self, g: Graph) -> int:
         for v in g.vertices:
             if g.degree(v) == 3:
                 for u in g.vertices:
@@ -49,7 +64,7 @@ class GraphUtils():
                         else:
                             return 11
 
-    def get_g1_type_between_graphlet_24_27(self, g: Graph) -> int:
+    def get_type_between_graphlet_24_27(self, g: Graph) -> int:
         for v in g.vertices:
             if g.degree(v) == 3:
                 for u in g.vertices:

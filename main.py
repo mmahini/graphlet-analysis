@@ -6,6 +6,7 @@ from graph_algorithms.gfd_algorithm import EpsilonDelta
 from guise.guise import Guise
 from exact.exact_graphlet_count import Exact
 from random import random
+from entities.graphlet import NUM_OF_GRAPHLETS
 
 
 def generate_random_graph():
@@ -45,6 +46,13 @@ def test_graph_templates():
     print(f"{count} should be 30.")
 
 
+def test_graph_template_type():
+    graphlet_templates = GraphletTemplates().list()
+    for i in range(0, NUM_OF_GRAPHLETS):
+        graphlet: SubGraphlet = graphlet_templates[i]
+        t = GraphUtils().calc_graphlet_type(graphlet)
+        print(f"[{i}] -> {t}")
+
 def test_guise():
     factory = GraphFactory()
     g: Graph = factory.load_graph_from_cmd()
@@ -63,4 +71,4 @@ def exact_count():
     exact.run()
 
 if __name__ == "__main__":
-    exact_count()
+    test_graph_template_type()
