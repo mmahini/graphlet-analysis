@@ -54,6 +54,19 @@ class GraphUtils():
 
         return True
 
+    def is_isomorph_vertex(self, g1: Graph, v1: int, g2: Graph,  v2: int) -> bool:
+        if g1.degree(v1) != g2.degree(v2):
+            return False
+
+        v1_nei_degrees = {g1.degree(w) for w in g1.nei[v1]}
+        v2_nei_degrees = {g2.degree(w) for w in g2.nei[v2]}
+
+        for x in v1_nei_degrees:
+            if x not in v2_nei_degrees:
+                return False
+
+        return True
+
     def get_type_between_graphlet_11_12(self, g: Graph) -> int:
         for v in g.vertices:
             if g.degree(v) == 3:
