@@ -1,23 +1,31 @@
-import asyncio
-import time
 import os
 
 from concurrent.futures import ThreadPoolExecutor
 from entities.graph import Graph, GraphFactory
 from guise.guise import Guise
-from graph_algorithms.gfd_algorithm import EpsilonDelta
+from graph_algorithms.gfd_algorithm import GfdUtils, EpsilonDelta
 from exact.exact_graphlet_count import Exact
+from multiprocessing import Pool, Process
 
-epsilonDelta = EpsilonDelta()
 num_of_running_alg = 20
-num_of_graph_v = 0
-num_of_graph_e = 0
+files_path = './files'
 
-def calc_guise_error(num_of_run=0):
-    print(f"run {num_of_run} ...")
 
-    factory = GraphFactory()
-    g: Graph = factory.gen_instance(num_of_graph_v, num_of_graph_e)
+def file_uri(i=0) -> str:
+    return f'{files_path}/{i}.txt'
+
+
+def init_files():
+    if os.path.isdir(files_path):
+        os.system('rm -rf %s/*' % files_path)
+    else:
+        os.mkdir(files_path)
+
+
+def calc_guise_error(num_of_run=0, n=0, p=0.0):
+    print(f'run {num_of_run} ...')
+
+    g: Graph = GraphFactory().get_random_instance(n, p)
     # print(g)
 
     exact: Exact = Exact(g)
@@ -26,33 +34,40 @@ def calc_guise_error(num_of_run=0):
     guise: Guise = Guise(g)
     guise.run(10000, 10000)
 
-    error = epsilonDelta.calc_error(guise, exact)
-    epsilonDelta.append_error(error)
+    guise_error = GfdUtils().calc_giuse_error(guise, exact)
+
+    with open(file_uri(num_of_run), 'w') as fp:
+        fp.write(str(guise_error))
 
 
-async def parallel_calculation():
-    executor = ThreadPoolExecutor(max_workers=os.cpu_count() - 1)
-    loop = asyncio.get_event_loop()
-    futures = [loop.run_in_executor(
-        executor,
-        calc_guise_error,
-        i) for i in range(0, num_of_running_alg)]
-
-    await asyncio.gather(*futures)
-
-
-async def do_calculation():
+def do_calculation():
     num_of_graph_v = int(input())
-    num_of_graph_e = int(input())
+    num_of_graph_p = float(input())
 
-    start_time = time.time()
-    await parallel_calculation()
+    init_files()
 
-    print(f"--- {time.time() - start_time:.5f} seconds ---\n\r")
+    # parallel calculation
+    process_list = list()
+    for i in range(num_of_running_alg):
+        p = Process(
+            target=calc_guise_error,
+            args=(i, num_of_graph_v, num_of_graph_p))
+        p.start()
+        process_list.append(p)
+    for p in process_list:
+        p.join()
+
+    epsilonDelta = EpsilonDelta()
+    # read calculated errors from file
+    for i in range(num_of_running_alg):
+        with open(file_uri(i), 'r') as fp:
+            giuse_error = fp.read()[1:-1]
+            giuse_error = [float(i) for i in giuse_error.split((', '))]
+            epsilonDelta.append_error(giuse_error)
 
     epsilonDelta.calc_delta()
     epsilonDelta.write()
 
 
-if __name__ == "__main__":
-    asyncio.run(do_calculation())
+if __name__ == '__main__':
+    do_calculation()

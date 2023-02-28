@@ -4,7 +4,7 @@ import time
 from concurrent.futures import ThreadPoolExecutor
 from entities.graph import Graph, GraphFactory
 from guise.guise import Guise
-from graph_algorithms.gfd_algorithm import EpsilonDelta
+from graph_algorithms.gfd_algorithm import EpsilonDelta, GfdUtils
 from exact.exact_graphlet_count import Exact
 
 
@@ -28,7 +28,7 @@ def guise_error_calculation():
         guise: Guise = Guise(g)
         guise.run(10000, 10000)
 
-        error = epsilonDelta.calc_error(guise, exact)
+        error = GfdUtils().calc_giuse_error(guise, exact)
         epsilonDelta.append_error(error)
 
     print(f"--- {time.time() - start_time:.5f} seconds ---\n\r")
