@@ -1,9 +1,9 @@
 # Exact Graphlet count
 
 from typing import List
-from entities.graph import Graph
-from entities.graphlet_statistics import GraphletStatistics
-from graph_algorithms.gfd_algorithm import GfdAglorithm
+from graph.graph import Graph
+from graph.statistics import GraphletStatistics
+from algorithms.gfd import GfdAglorithm
 
 
 class Exact(GfdAglorithm):

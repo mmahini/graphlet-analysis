@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
 
 import os
-from concurrent.futures import ThreadPoolExecutor
-from entities.graph import Graph, GraphFactory
-from guise.guise import Guise
-from graph_algorithms.gfd_algorithm import GfdUtils, EpsilonDelta
-from exact.exact_graphlet_count import Exact
+from graph.graph import Graph, GraphFactory
+from algorithms.guise import Guise
+from algorithms.gfd import GfdUtils, EpsilonDelta
+from algorithms.exact import Exact
 from multiprocessing import Pool, Process
 
 num_of_running_alg = 20

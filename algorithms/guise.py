@@ -1,8 +1,8 @@
-from entities.graphlet import SubGraphlet, SubGraphletFactory, NUM_OF_GRAPHLETS
-from entities.graphlet_statistics import GraphletStatistics
-from entities.graph import Graph
+from graph.graphlet import SubGraphlet, SubGraphletFactory, NUM_OF_GRAPHLETS
+from graph.statistics import GraphletStatistics
+from graph.graph import Graph
+from algorithms.gfd import GfdAglorithm
 from random import randint, random
-from graph_algorithms.gfd_algorithm import GfdAglorithm
 
 
 class Guise(GfdAglorithm):

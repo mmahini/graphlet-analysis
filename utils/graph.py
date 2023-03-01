@@ -1,5 +1,5 @@
-from entities.graph import Graph
-from entities.graphlet_templates import GraphletTemplates
+from graph.graph import Graph
+from graph.templates import GraphletTemplates
 from utils.singleton import singleton
 
 

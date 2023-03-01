@@ -1,9 +1,8 @@
 from typing import List
 
-from entities.graphlet import NUM_OF_GRAPHLETS, NUM_OF_ORBITS
-from entities.graph import Graph
-from entities.graphlet import SubGraphlet, SubGraphletFactory
-from entities.graphlet_templates import GraphletTemplates
+from graph.graph import Graph
+from graph.graphlet import SubGraphlet, SubGraphletFactory, NUM_OF_GRAPHLETS, NUM_OF_ORBITS
+from graph.templates import GraphletTemplates
 
 
 class GraphletStatistics():
@@ -17,7 +16,8 @@ class GraphletStatistics():
         self.vertex_graphlet_freq: dict[int, list] = dict()
         for v in g.vertices:
             self.vertex_graphlet_cnt[v] = [0 for _ in range(NUM_OF_GRAPHLETS)]
-            self.vertex_graphlet_freq[v] = [0.0 for _ in range(NUM_OF_GRAPHLETS)]
+            self.vertex_graphlet_freq[v] = [
+                0.0 for _ in range(NUM_OF_GRAPHLETS)]
 
         self.vertex_orbit_cnt: dict[int, list] = dict()
         self.vertex_orbit_freq: dict[int, list] = dict()

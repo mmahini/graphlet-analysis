@@ -1,10 +1,8 @@
 from utils.singleton import singleton
-from entities.graph import Graph
-from graph_algorithms.graph_utils import GraphUtils
-from entities.graphlet_templates import GraphletTemplates, OrbitTemplates
+from graph.graph import Graph
+from graph.templates import GraphletTemplates, OrbitTemplates
+from utils.graph import GraphUtils
 from typing import List
-
-from entities.graph import Graph
 
 NUM_OF_GRAPHLETS = 30
 NUM_OF_ORBITS = 73

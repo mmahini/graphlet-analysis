@@ -1,4 +1,4 @@
-from entities.graph import Graph, GraphFactory
+from graph.graph import Graph, GraphFactory
 from utils.singleton import singleton
 
 

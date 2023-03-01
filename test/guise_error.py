@@ -2,12 +2,13 @@
 
 import time
 from concurrent.futures import ThreadPoolExecutor
-from entities.graph import Graph, GraphFactory
-from guise.guise import Guise
-from graph_algorithms.gfd_algorithm import EpsilonDelta, GfdUtils
-from exact.exact_graphlet_count import Exact
+from graph.graph import Graph, GraphFactory
+from algorithms.guise import Guise
+from algorithms.gfd import EpsilonDelta, GfdUtils
+from algorithms.exact import Exact
 
 
+# Test guise graphlet count diff with exact count
 def guise_error_calculation():
     n = int(input())
     p = float(input())

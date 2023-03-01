@@ -1,15 +1,16 @@
 from utils.singleton import singleton
-from entities.graph import Graph
-from entities.graphlet_statistics import GraphletStatistics
-from entities.graphlet import NUM_OF_GRAPHLETS
+from graph.graph import Graph
+from graph.statistics import GraphletStatistics
+from graph.graphlet import NUM_OF_GRAPHLETS
 from abc import ABC
+
 
 class GfdAglorithm(ABC):
     def __init__(self, g: Graph):
         self.g = g
         self.gs: GraphletStatistics = GraphletStatistics(g)
         self.log = False
-    
+
 
 class EpsilonDelta():
     def __init__(self):
@@ -39,6 +40,7 @@ class EpsilonDelta():
         for e in self.epsilon:
             print(f"{e}: {self.delta[e]*100}")
 
+
 @singleton
 class GfdUtils():
 
@@ -48,5 +50,6 @@ class GfdUtils():
             if exact.gs.graphlet_freq[i] == 0:
                 error.append(-1)
             else:
-                error.append(abs(alg.gs.graphlet_freq[i] - exact.gs.graphlet_freq[i]))
+                error.append(
+                    abs(alg.gs.graphlet_freq[i] - exact.gs.graphlet_freq[i]))
         return error
