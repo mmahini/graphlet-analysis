@@ -1,5 +1,6 @@
-import os
+#!/usr/bin/env python3
 
+import os
 from concurrent.futures import ThreadPoolExecutor
 from entities.graph import Graph, GraphFactory
 from guise.guise import Guise
