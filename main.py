@@ -48,7 +48,7 @@ def test_graph_templates():
 
 def test_graph_template_type():
     graphlet_templates = GraphletTemplates().list()
-    for i in range(0, NUM_OF_GRAPHLETS):
+    for i in range(NUM_OF_GRAPHLETS):
         graphlet: SubGraphlet = graphlet_templates[i]
         t = GraphUtils().calc_graphlet_type(graphlet)
         print(f"[{i}] -> {t}")

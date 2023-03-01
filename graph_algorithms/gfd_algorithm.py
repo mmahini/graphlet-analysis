@@ -22,7 +22,7 @@ class EpsilonDelta():
             self.delta[e] = 0
 
     def append_error(self, error: list):
-        for i in range(0, NUM_OF_GRAPHLETS):
+        for i in range(NUM_OF_GRAPHLETS):
             if error[i] == -1:
                 continue
             self.samples += 1
@@ -44,7 +44,7 @@ class GfdUtils():
 
     def calc_giuse_error(self, alg: GfdAglorithm,  exact: GfdAglorithm):
         error = list()
-        for i in range(0, NUM_OF_GRAPHLETS):
+        for i in range(NUM_OF_GRAPHLETS):
             if exact.gs.graphlet_freq[i] == 0:
                 error.append(-1)
             else:

@@ -86,7 +86,7 @@ class Exact(GfdAglorithm):
                                 continue
                             e: int = g.subgraph_countE([v, u, w, x, y])
                             deg: List = list()
-                            for _ in range(0, 5):
+                            for _ in range(5):
                                 deg.append(0)
                             for i in {u, w, x, y}:
                                 deg[g.subgraph_degree(i, [v, u, w, x, y])] += 1
@@ -130,7 +130,7 @@ class Exact(GfdAglorithm):
                                 continue
                             e: int = g.subgraph_countE([v, u, w, x, y])
                             deg: List = list()
-                            for _ in range(0, 5):
+                            for _ in range(5):
                                 deg.append(0)
                             for i in {v, u, w, x, y}:
                                 deg[g.subgraph_degree(i, [v, u, w, x, y])] += 1

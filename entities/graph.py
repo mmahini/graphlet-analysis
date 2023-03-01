@@ -143,7 +143,7 @@ class GraphFactory():
     def create_instance_with_n_vertices_from(self, n: int) -> Graph:
         g = self.create_instance()
 
-        for i in range(0, n):
+        for i in range(n):
             g.vertices.add(i)
 
         g.init_marks()
@@ -184,7 +184,7 @@ class GraphFactory():
 
         g = self.create_instance_with_n_vertices_from(n)
 
-        for _ in range(0, e):
+        for _ in range(e):
             v_str, u_str = input().split(" ")
             v = int(v_str)
             u = int(u_str)

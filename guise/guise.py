@@ -63,7 +63,7 @@ class Guise(GfdAglorithm):
         if (self.log):
             print("random walk started ...")
         neighbors: list[SubGraphlet] = self.populate_neighbor(sub_graph)
-        for i in range(0, steps):
+        for i in range(steps):
             # random select from neighbors
             index = randint(0, len(neighbors)-1)
             selected_neighbor = neighbors[index]

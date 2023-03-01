@@ -10,20 +10,20 @@ class GraphletStatistics():
     def __init__(self, g: Graph):
         self.total_num_of_graphlets = 0
 
-        self.graphlet_cnt = [0 for _ in range(0, NUM_OF_GRAPHLETS)]
-        self.graphlet_freq = [0.0 for _ in range(0, NUM_OF_GRAPHLETS)]
+        self.graphlet_cnt = [0 for _ in range(NUM_OF_GRAPHLETS)]
+        self.graphlet_freq = [0.0 for _ in range(NUM_OF_GRAPHLETS)]
 
         self.vertex_graphlet_cnt: dict[int, list] = dict()
         self.vertex_graphlet_freq: dict[int, list] = dict()
         for v in g.vertices:
-            self.vertex_graphlet_cnt[v] = [0 for _ in range(0, NUM_OF_GRAPHLETS)]
-            self.vertex_graphlet_freq[v] = [0.0 for _ in range(0, NUM_OF_GRAPHLETS)]
+            self.vertex_graphlet_cnt[v] = [0 for _ in range(NUM_OF_GRAPHLETS)]
+            self.vertex_graphlet_freq[v] = [0.0 for _ in range(NUM_OF_GRAPHLETS)]
 
         self.vertex_orbit_cnt: dict[int, list] = dict()
         self.vertex_orbit_freq: dict[int, list] = dict()
         for v in g.vertices:
-            self.vertex_orbit_cnt[v] = [0 for _ in range(0, NUM_OF_ORBITS)]
-            self.vertex_orbit_freq[v] = [0.0 for _ in range(0, NUM_OF_ORBITS)]
+            self.vertex_orbit_cnt[v] = [0 for _ in range(NUM_OF_ORBITS)]
+            self.vertex_orbit_freq[v] = [0.0 for _ in range(NUM_OF_ORBITS)]
 
     def add_to_statistics(self, graphlet: SubGraphlet):
         graphlet_type = graphlet.get_graphlet_type()
@@ -46,20 +46,20 @@ class GraphletStatistics():
 
     def write(self):
         print(f"Graphlet Counts (total: {self.total_num_of_graphlets}):")
-        for i in range(0, NUM_OF_GRAPHLETS):
+        for i in range(NUM_OF_GRAPHLETS):
             print(f"{i}: {self.graphlet_cnt[i]}")
 
     def calculate_frequencies(self):
-        for i in range(0, NUM_OF_GRAPHLETS):
+        for i in range(NUM_OF_GRAPHLETS):
             self.graphlet_freq[i] = self.graphlet_cnt[i] / \
                 self.total_num_of_graphlets
 
         for v in self.vertex_graphlet_freq.keys():
-            for i in range(0, NUM_OF_GRAPHLETS):
+            for i in range(NUM_OF_GRAPHLETS):
                 self.vertex_graphlet_freq[v][i] = self.vertex_graphlet_cnt[v][i] / \
                     self.total_num_of_graphlets
 
     def write_frequencies(self):
         print("Graphlet Frequencies:")
-        for i in range(0, NUM_OF_GRAPHLETS):
+        for i in range(NUM_OF_GRAPHLETS):
             print(f"{i}: {self.graphlet_freq[i]}")

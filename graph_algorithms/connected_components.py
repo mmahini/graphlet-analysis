@@ -17,7 +17,7 @@ def dfs(g: Graph, v: int) -> str:
 def cc(g: Graph) -> str:
     g.reset_marks()
     cc_str: str = "Connected Components:\n"
-    for i in range(0, g.n):
+    for i in range(g.n):
         if not g.mark[i]:
             cc_str = cc_str + dfs(g, i) + "\n"
     return cc_str

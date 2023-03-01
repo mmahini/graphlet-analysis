@@ -16,7 +16,7 @@ def guise_error_calculation():
 
     start_time = time.time()
 
-    for i in range(0, 20):
+    for i in range(20):
         print(f"run {i} ...")
         factory = GraphFactory()
         g: Graph = factory.get_random_instance(n, p)
