@@ -1,14 +1,14 @@
-# Graphlet count
+# Exact Graphlet count
 
 from typing import List
 from entities.graph import Graph
 from entities.graphlet_statistics import GraphletStatistics
 from graph_algorithms.gfd_algorithm import GfdAglorithm
 
-# find exact number of graphlets with 3 vertices
 
 class Exact(GfdAglorithm):
 
+    # find exact number of graphlets with 3 vertices
     def gc3(self) -> None:
         for v in self.g.vertices:
             for u in self.g.nei[v]:
@@ -24,11 +24,9 @@ class Exact(GfdAglorithm):
                             self.gs.plus_one(2)
                     else:
                         if w > u:
-                           self.gs.plus_one(1)
+                            self.gs.plus_one(1)
 
     # find exact number of graphlets with 4 vertices
-
-
     def gc4(self) -> None:
         g = self.g
         gs = self.gs
@@ -58,9 +56,11 @@ class Exact(GfdAglorithm):
                             gs.plus_one(7)
                         elif e == 3:
                             gs.plus_one(3)
-                        elif v in g.nei[x]:         # e = 4
+                        # e = 4
+                        elif v in g.nei[x]:
                             gs.plus_one(6)
-                        elif u in g.nei[x]:         # e = 4
+                        # e = 4
+                        elif u in g.nei[x]:
                             gs.plus_one(5)
 
         gs.graphlet_cnt[3] = int(gs.graphlet_cnt[3]/2)
@@ -68,7 +68,6 @@ class Exact(GfdAglorithm):
         gs.graphlet_cnt[6] = int(gs.graphlet_cnt[6]/8)
         gs.graphlet_cnt[7] = int(gs.graphlet_cnt[7]/12)
         gs.graphlet_cnt[8] = int(gs.graphlet_cnt[8]/24)
-
 
     # find exact number of graphlets with 5 vertices
     def gc5(self) -> None:
@@ -185,12 +184,11 @@ class Exact(GfdAglorithm):
         gs.graphlet_cnt[29] = int(gs.graphlet_cnt[29]/5)
 
     # find exact number of graphlets with 2-5 vertices numbered (0-29)
-
     def run(self):
         if self.log:
             print("-------- extact --------")
 
-        self.gs.graphlet_cnt[0] = self.g.countE()      # G0 : pair of connected vertices
+        self.gs.graphlet_cnt[0] = self.g.countE()
         self.gc3()
         self.gc4()
         self.gc5()
@@ -199,5 +197,3 @@ class Exact(GfdAglorithm):
             self.gs.write()
 
         self.gs.calculate_frequencies()
-#        if self.log:
-#            self.gs.write_frequencies()

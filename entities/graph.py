@@ -1,4 +1,5 @@
 # Graph class and all of graph functions
+
 from utils.singleton import singleton
 
 from typing import List
@@ -115,7 +116,6 @@ class Graph(ABC):
                     print(f"{v} {u}")
 
     # find number of edges in inductive sub-graph limited to "lst" as its vertices
-
     def subgraph_countE(self, lst: List) -> int:
         e: int = 0
         for i in lst:
