@@ -15,6 +15,8 @@ def file_uri(i=0) -> str:
     return f'{files_path}/{i}.txt'
 
 
+# initialize error calculation files
+# delete existed files from last calculation
 def init_files():
     if os.path.isdir(files_path):
         os.system('rm -rf %s/*' % files_path)
@@ -23,8 +25,6 @@ def init_files():
 
 
 def calc_guise_error(num_of_run=0, n=0, p=0.0):
-    print(f'run {num_of_run} ...')
-
     g: Graph = GraphFactory().get_random_instance(n, p)
     # print(g)
 
@@ -43,6 +43,8 @@ def calc_guise_error(num_of_run=0, n=0, p=0.0):
 def do_calculation():
     num_of_graph_v = int(input())
     num_of_graph_p = float(input())
+
+    print("calculation started, please wait")
 
     init_files()
 
