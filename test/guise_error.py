@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+import sys, os
+sys.path.insert(1, os.getcwd())
 
 import time
 from concurrent.futures import ThreadPoolExecutor

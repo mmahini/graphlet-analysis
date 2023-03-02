@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+import sys, os
+sys.path.insert(1, os.getcwd())
 
 from graph.graph import Graph, GraphFactory
 from algorithms.guise import Guise
