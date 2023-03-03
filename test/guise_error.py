@@ -15,15 +15,15 @@ def guise_error_calculation():
     n = int(input())
     p = float(input())
 
-    epsilonDelta = EpsilonDelta()
-
-    start_time = time.time()
+    graphlet_count_ed = EpsilonDelta()
+    vertex_graphlet_count_ed = EpsilonDelta()
+    vertex_orbit_count_ed = EpsilonDelta()
 
     for i in range(20):
         print(f"run {i} ...")
-        factory = GraphFactory()
-        g: Graph = factory.get_random_instance(n, p)
-        print(g)
+
+        g: Graph = GraphFactory().get_random_instance(n, p)
+        # print(g)
 
         exact: Exact = Exact(g)
         exact.run()
@@ -31,13 +31,27 @@ def guise_error_calculation():
         guise: Guise = Guise(g)
         guise.run(10000, 10000)
 
-        error = GfdUtils().calc_giuse_error(guise, exact)
-        epsilonDelta.append_error(error)
+        error_gc = GfdUtils().calc_graphlet_count_error(guise, exact)
+        graphlet_count_ed.append_graphlet_count_error(error_gc)
 
-    print(f"--- {time.time() - start_time:.5f} seconds ---\n\r")
+        error_vgc = GfdUtils().calc_vertex_graphlet_count_error(guise, exact)
+        vertex_graphlet_count_ed.append_vertex_count_error(error_vgc)
 
-    epsilonDelta.calc_delta()
-    epsilonDelta.write()
+        error_voc = GfdUtils().calc_vertex_orbit_count_error(guise, exact)
+        vertex_orbit_count_ed.append_vertex_count_error(error_voc)
+
+    graphlet_count_ed.calc_delta()
+    vertex_graphlet_count_ed.calc_delta()
+    vertex_orbit_count_ed.calc_delta()
+
+    print("\ngraphlet count")
+    graphlet_count_ed.write()
+
+    print("\nvertext graphlet count")
+    vertex_graphlet_count_ed.write()
+
+    print("\nvertext orbit count")
+    vertex_orbit_count_ed.write()
 
 
 if __name__ == "__main__":

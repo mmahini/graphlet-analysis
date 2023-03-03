@@ -78,11 +78,8 @@ class SubGraphletFactory():
             new_graphlet.add(v)
         return new_graphlet
 
-    def copy_from_graph(self,  graph: Graph):
-        subGraphlet = SubGraphlet(graph)
-
-        for v in graph.vertices:
-            subGraphlet.nei[v] = set()
-            subGraphlet.add(v)
-
-        return subGraphlet
+    def create_subgraphlet(self,  graph: Graph, vertices: list[int]):
+        sub_graphlet = SubGraphlet(graph)
+        for v in vertices:
+            sub_graphlet.add(v)
+        return sub_graphlet

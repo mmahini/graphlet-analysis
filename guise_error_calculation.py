@@ -34,7 +34,7 @@ def calc_guise_error(num_of_run=0, n=0, p=0.0):
     guise: Guise = Guise(g)
     guise.run(10000, 10000)
 
-    guise_error = GfdUtils().calc_giuse_error(guise, exact)
+    guise_error = GfdUtils().calc_graphlet_count_error(guise, exact)
 
     with open(file_uri(num_of_run), 'w') as fp:
         fp.write(str(guise_error))
@@ -65,7 +65,7 @@ def do_calculation():
         with open(file_uri(i), 'r') as fp:
             giuse_error = fp.read()[1:-1]
             giuse_error = [float(i) for i in giuse_error.split((', '))]
-            epsilonDelta.append_error(giuse_error)
+            epsilonDelta.append_graphlet_count_error(giuse_error)
 
     epsilonDelta.calc_delta()
     epsilonDelta.write()

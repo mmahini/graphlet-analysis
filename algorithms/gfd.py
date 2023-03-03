@@ -1,7 +1,7 @@
 from utils.singleton import singleton
 from graph.graph import Graph
 from graph.statistics import GraphletStatistics
-from graph.graphlet import NUM_OF_GRAPHLETS
+from graph.graphlet import NUM_OF_GRAPHLETS, NUM_OF_ORBITS
 from abc import ABC
 
 
@@ -16,20 +16,33 @@ class EpsilonDelta():
     def __init__(self):
         self.samples = 0
         self.epsilon = [0.1, 0.05, 0.02, 0.01]
+
         self.out_range = dict()
         self.delta = dict()
         for e in self.epsilon:
             self.out_range[e] = 0
             self.delta[e] = 0
 
-    def append_error(self, error: list):
-        for i in range(NUM_OF_GRAPHLETS):
+    def append_graphlet_count_error(self, error: list):
+        for i in range(len(error)):
             if error[i] == -1:
                 continue
+
             self.samples += 1
             for e in self.epsilon:
                 if error[i] > e:
                     self.out_range[e] += 1
+
+    def append_vertex_count_error(self,  error: dict[int, list]):
+        for k in error.keys():
+            for l in error[k]:
+                if l == -1:
+                    continue
+
+                self.samples += 1
+                for e in self.epsilon:
+                    if l > e:
+                        self.out_range[e] += 1
 
     def calc_delta(self):
         for e in self.epsilon:
@@ -44,7 +57,7 @@ class EpsilonDelta():
 @singleton
 class GfdUtils():
 
-    def calc_giuse_error(self, alg: GfdAglorithm,  exact: GfdAglorithm):
+    def calc_graphlet_count_error(self, alg: GfdAglorithm,  exact: GfdAglorithm):
         error = list()
         for i in range(NUM_OF_GRAPHLETS):
             if exact.gs.graphlet_freq[i] == 0:
@@ -52,4 +65,34 @@ class GfdUtils():
             else:
                 error.append(
                     abs(alg.gs.graphlet_freq[i] - exact.gs.graphlet_freq[i]))
+        return error
+
+    def calc_vertex_graphlet_count_error(self, alg: GfdAglorithm,  exact: GfdAglorithm):
+        error: dict[int, list] = dict()
+
+        for v in exact.gs.vertex_graphlet_freq.keys():
+            error[v] = [0 for _ in range(NUM_OF_GRAPHLETS)]
+
+            for i in range(NUM_OF_GRAPHLETS):
+                if exact.gs.vertex_graphlet_freq[v][i] == 0:
+                    error[v][i] = 1
+                else:
+                    error[v][i] = abs(
+                        alg.gs.vertex_graphlet_freq[v][i] - exact.gs.vertex_graphlet_freq[v][i])
+
+        return error
+
+    def calc_vertex_orbit_count_error(self, alg: GfdAglorithm,  exact: GfdAglorithm):
+        error: dict[int, list] = dict()
+
+        for v in exact.gs.vertex_orbit_freq.keys():
+            error[v] = [0 for _ in range(NUM_OF_ORBITS)]
+
+            for i in range(NUM_OF_ORBITS):
+                if exact.gs.vertex_orbit_freq[v][i] == 0:
+                    error[v][i] = 1
+                else:
+                    error[v][i] = abs(alg.gs.vertex_orbit_freq[v]
+                                      [i] - exact.gs.vertex_orbit_freq[v][i])
+
         return error
