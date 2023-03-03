@@ -71,11 +71,11 @@ class GfdUtils():
         error: dict[int, list] = dict()
 
         for v in exact.gs.vertex_graphlet_freq.keys():
-            error[v] = [0 for _ in range(NUM_OF_GRAPHLETS)]
+            error[v] = [-1 for _ in range(NUM_OF_GRAPHLETS)]
 
             for i in range(NUM_OF_GRAPHLETS):
                 if exact.gs.vertex_graphlet_freq[v][i] == 0:
-                    error[v][i] = 1
+                    error[v][i] = -1
                 else:
                     error[v][i] = abs(
                         alg.gs.vertex_graphlet_freq[v][i] - exact.gs.vertex_graphlet_freq[v][i])
@@ -86,11 +86,11 @@ class GfdUtils():
         error: dict[int, list] = dict()
 
         for v in exact.gs.vertex_orbit_freq.keys():
-            error[v] = [0 for _ in range(NUM_OF_ORBITS)]
+            error[v] = [-1 for _ in range(NUM_OF_ORBITS)]
 
             for i in range(NUM_OF_ORBITS):
                 if exact.gs.vertex_orbit_freq[v][i] == 0:
-                    error[v][i] = 1
+                    error[v][i] = -1
                 else:
                     error[v][i] = abs(alg.gs.vertex_orbit_freq[v]
                                       [i] - exact.gs.vertex_orbit_freq[v][i])
