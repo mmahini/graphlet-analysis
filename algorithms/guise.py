@@ -1,18 +1,15 @@
-from entities.graphlet import SubGraphlet, SubGraphletFactory, NUM_OF_GRAPHLETS
-from entities.graphlet_statistics import GraphletStatistics
-from entities.graph import Graph
+from graph.graphlet import SubGraphlet, SubGraphletFactory, NUM_OF_GRAPHLETS
+from graph.statistics import GraphletStatistics
+from graph.graph import Graph
+from algorithms.gfd import GfdAglorithm
 from random import randint, random
 
-class Guise():
-    def __init__(self, g: Graph):
-        self.g = g
-        self.gs: GraphletStatistics = GraphletStatistics(g)
+
+class Guise(GfdAglorithm):
 
     def populate_neighbor(self, sub_graphlet: SubGraphlet) -> list[SubGraphlet]:
         neighbor_vertices = sub_graphlet.get_neighbor_vertices()
         neighbors: list[SubGraphlet] = []
-
-#        print(f"sub-graph: {sub_graphlet.vertices}")
 
         # sub_graphlet - {i}
         if sub_graphlet.countV() > 2:
@@ -38,7 +35,7 @@ class Guise():
                 sg.add(v)
                 if sg.is_connected():
                     neighbors.append(sg)
-        
+
         return neighbors
 
     def get_initial_graphlet(self) -> SubGraphlet:
@@ -51,7 +48,8 @@ class Guise():
                 break
 
         if v == -1:
-            print("Shiiiiiiiit !!!")
+            if (self.log):
+                print("Shiiiiiiiit !!!")
 
         sub_graphlet.add(v)
 
@@ -61,42 +59,43 @@ class Guise():
 
         return sub_graphlet
 
-
-    def calc_stationary_steps(self) -> int:
-        return 100*1000
-
-
     def random_walk(self, sub_graph: SubGraphlet, steps: int, counting: bool):
-        print("random walk started ...")
-#        print(sub_graph)
-        neighbors : list[SubGraphlet] = self.populate_neighbor(sub_graph)
-        for i in range(0, steps):
-            if i % 10000 == 0:
-                print(f"step {i} of random walk")
+        if (self.log):
+            print("random walk started ...")
+        neighbors: list[SubGraphlet] = self.populate_neighbor(sub_graph)
+        for i in range(steps):
             # random select from neighbors
             index = randint(0, len(neighbors)-1)
             selected_neighbor = neighbors[index]
             neighbors_of_neighbor = self.populate_neighbor(selected_neighbor)
-            acceptance_probability = min(len(neighbors)/len(neighbors_of_neighbor), 1)
-#            print(f"acceptance probability : {acceptance_probability}")
+            acceptance_probability = min(
+                len(neighbors)/len(neighbors_of_neighbor), 1)
             if random() <= acceptance_probability:
                 sub_graph = selected_neighbor
                 neighbors = neighbors_of_neighbor
 
             if counting:
-#                print(sub_graph)
-                self.gs.plus_one(sub_graph.get_graphlet_type())
-        
+                self.gs.add_to_statistics(sub_graph)
+
         return sub_graph
 
     def run(self, stationary_steps: int, steps: int):
+        if (self.log):
+            print("-------- guise --------")
+
         random_sub_graphlet: SubGraphlet = self.get_initial_graphlet()
+
         # get to stationary point
-        print("guise :: start finding stationary ...")
-        random_sub_graphlet = self.random_walk(random_sub_graphlet, stationary_steps, counting = False)
+        if (self.log):
+            print("guise :: start finding stationary ...")
+        random_sub_graphlet = self.random_walk(
+            random_sub_graphlet, stationary_steps, counting=False)
+
         # counting
-        print("guise :: counting started ...")
-        self.random_walk(random_sub_graphlet, steps, counting = True)
+        if (self.log):
+            print("guise :: counting started ...")
+        self.random_walk(random_sub_graphlet, steps, counting=True)
 
         self.gs.calculate_frequencies()
-        self.gs.write_frequencies()
+        if (self.log):
+            self.gs.write_frequencies()

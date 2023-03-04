@@ -1,8 +1,8 @@
 # Graph class and all of graph functions
-from utils.singleton import singleton
 
+from utils.singleton import singleton
 from typing import List
-from random import randint
+from random import randint, random
 from abc import ABC
 
 
@@ -103,7 +103,7 @@ class Graph(ABC):
     # write graph to output. n, e and each edge is in separate line
     def write(self):
         n = len(self.vertices)
-        e = self.get_num_edges()
+        e = self.countE()
 
         s = f"{n} {e}"
         if self.is_connected():
@@ -115,7 +115,6 @@ class Graph(ABC):
                     print(f"{v} {u}")
 
     # find number of edges in inductive sub-graph limited to "lst" as its vertices
-
     def subgraph_countE(self, lst: List) -> int:
         e: int = 0
         for i in lst:
@@ -143,7 +142,7 @@ class GraphFactory():
     def create_instance_with_n_vertices_from(self, n: int) -> Graph:
         g = self.create_instance()
 
-        for i in range(0, n):
+        for i in range(n):
             g.vertices.add(i)
 
         g.init_marks()
@@ -162,19 +161,19 @@ class GraphFactory():
 
         return g
 
-    # generate a graph with n vertices and e edges.
-    # probability of selection of every edge is uniform.
-    def gen_instance(self, n: int, e: int) -> Graph:
+    # generate a graph like G(n,p) : Erdos-Renyi
+    # Graph has n vertices and every edge be with probability p
+    def get_random_instance(self, n: int, p: float) -> Graph:
         g = self.create_instance_with_n_vertices_from(n)
 
-        i: int = 0
-        while i < e:
-            v = randint(0, n-1)
-            u = randint(0, n-1)
-            if v != u and v not in g.nei[u]:
-                i += 1
-                g.nei[v].add(u)
-                g.nei[u].add(v)
+        for v in g.vertices:
+            for u in g.vertices:
+                if v >= u:
+                    continue
+                if random() <= p:
+                    g.nei[v].add(u)
+                    g.nei[u].add(v)
+
         return g
 
     # load a graph from input. n, e and each edge is in separate line
@@ -184,7 +183,7 @@ class GraphFactory():
 
         g = self.create_instance_with_n_vertices_from(n)
 
-        for _ in range(0, e):
+        for _ in range(e):
             v_str, u_str = input().split(" ")
             v = int(v_str)
             u = int(u_str)
