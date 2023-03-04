@@ -13,9 +13,9 @@ class GfdAglorithm(ABC):
 
 
 class EpsilonDelta():
-    def __init__(self):
+    def __init__(self, epsilons: list):
         self.samples = 0
-        self.epsilon = [0.1, 0.05, 0.02, 0.01]
+        self.epsilon = epsilons
 
         self.out_range = dict()
         self.delta = dict()
@@ -71,14 +71,14 @@ class GfdUtils():
         error: dict[int, list] = dict()
 
         for v in exact.gs.vertex_graphlet_freq.keys():
-            error[v] = [-1 for _ in range(NUM_OF_GRAPHLETS)]
+            error[v] = list()
 
             for i in range(NUM_OF_GRAPHLETS):
                 if exact.gs.vertex_graphlet_freq[v][i] == 0:
-                    error[v][i] = -1
+                    error[v].append(-1)
                 else:
-                    error[v][i] = abs(
-                        alg.gs.vertex_graphlet_freq[v][i] - exact.gs.vertex_graphlet_freq[v][i])
+                    error[v].append(abs(
+                        alg.gs.vertex_graphlet_freq[v][i] - exact.gs.vertex_graphlet_freq[v][i]))
 
         return error
 
@@ -86,13 +86,13 @@ class GfdUtils():
         error: dict[int, list] = dict()
 
         for v in exact.gs.vertex_orbit_freq.keys():
-            error[v] = [-1 for _ in range(NUM_OF_ORBITS)]
+            error[v] = list()
 
             for i in range(NUM_OF_ORBITS):
                 if exact.gs.vertex_orbit_freq[v][i] == 0:
-                    error[v][i] = -1
+                    error[v].append(-1)
                 else:
-                    error[v][i] = abs(alg.gs.vertex_orbit_freq[v]
-                                      [i] - exact.gs.vertex_orbit_freq[v][i])
+                    error[v].append(abs(
+                        alg.gs.vertex_orbit_freq[v][i] - exact.gs.vertex_orbit_freq[v][i]))
 
         return error

@@ -15,9 +15,9 @@ def guise_error_calculation():
     n = int(input())
     p = float(input())
 
-    graphlet_count_ed = EpsilonDelta()
-    vertex_graphlet_count_ed = EpsilonDelta()
-    vertex_orbit_count_ed = EpsilonDelta()
+    graphlet_count_ed = EpsilonDelta([0.1, 0.05, 0.02, 0.01])
+    vertex_graphlet_count_ed = EpsilonDelta([0.05, 0.02, 0.01, 0.005])
+    vertex_orbit_count_ed = EpsilonDelta([0.01, 0.005, 0.002, 0.001])
 
     for i in range(20):
         print(f"run {i} ...")
