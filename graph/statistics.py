@@ -114,3 +114,21 @@ class GraphletStatistics():
         print("Graphlet Frequencies:")
         for i in range(NUM_OF_GRAPHLETS):
             print(f"{i}: {self.graphlet_freq[i]}")
+
+        print("\n")
+        print(f"Vertex Graphlet Frequencies:")
+        for v in self.vertex_graphlet_freq.keys():
+            vertext_graphlet_freq_dict = dict()
+            for i in range(NUM_OF_GRAPHLETS):
+                if self.vertex_graphlet_freq[v][i] > 0:
+                    vertext_graphlet_freq_dict[i] = self.vertex_graphlet_freq[v][i]
+            print(f"{v}: {vertext_graphlet_freq_dict}")
+
+        print("\n")
+        print(f"Vertex Orbit Frequencies:")
+        for v in self.vertex_orbit_freq.keys():
+            vertext_orbit_freq_dict = dict()
+            for i in range(NUM_OF_ORBITS):
+                if self.vertex_orbit_freq[v][i] > 0:
+                    vertext_orbit_freq_dict[i] = self.vertex_orbit_freq[v][i]
+            print(f"{v}: {vertext_orbit_freq_dict}")
