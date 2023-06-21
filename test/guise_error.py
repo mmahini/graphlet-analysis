@@ -18,6 +18,7 @@ def guise_error_calculation():
     graphlet_count_ed = EpsilonDelta([0.1, 0.05, 0.02, 0.01])
     vertex_graphlet_count_ed = EpsilonDelta([0.05, 0.02, 0.01, 0.005])
     vertex_orbit_count_ed = EpsilonDelta([0.01, 0.005, 0.002, 0.001])
+    vertex_graphlet_degree_centrality_ed = EpsilonDelta([0.05, 0.02, 0.01, 0.005])
 
     for i in range(20):
         print(f"run {i} ...")
@@ -40,9 +41,13 @@ def guise_error_calculation():
         error_voc = GfdUtils().calc_vertex_orbit_count_error(guise, exact)
         vertex_orbit_count_ed.append_vertex_count_error(error_voc)
 
+        error_gdc = GfdUtils().calc_vertex_graphlet_degree_centrality_error(guise, exact)
+        vertex_graphlet_degree_centrality_ed.append_vertex_graphlet_degree_centrality_error(error_gdc)
+
     graphlet_count_ed.calc_delta()
     vertex_graphlet_count_ed.calc_delta()
     vertex_orbit_count_ed.calc_delta()
+    vertex_graphlet_degree_centrality_ed.calc_delta()
 
     print("\ngraphlet count")
     graphlet_count_ed.write()
@@ -52,6 +57,9 @@ def guise_error_calculation():
 
     print("\nvertext orbit count")
     vertex_orbit_count_ed.write()
+    
+    print("\nvertex graphlet degree centrality")
+    vertex_graphlet_degree_centrality_ed.write()
 
 
 if __name__ == "__main__":

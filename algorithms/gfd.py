@@ -44,6 +44,17 @@ class EpsilonDelta():
                     if l > e:
                         self.out_range[e] += 1
 
+    def append_vertex_graphlet_degree_centrality_error(self,  error: dict[int, float]):
+        for k in error.keys():
+            i = error[k]
+            if i == -1:
+                continue
+
+            self.samples += 1
+            for e in self.epsilon:
+                if i > e:
+                    self.out_range[e] += 1
+
     def calc_delta(self):
         for e in self.epsilon:
             self.delta[e] = 1 - (self.out_range[e]/self.samples)
@@ -94,5 +105,16 @@ class GfdUtils():
                 else:
                     error[v].append(abs(
                         alg.gs.vertex_orbit_freq[v][i] - exact.gs.vertex_orbit_freq[v][i]))
+
+        return error
+
+    def calc_vertex_graphlet_degree_centrality_error(self, alg: GfdAglorithm,  exact: GfdAglorithm):
+        error: dict[int, float] = dict()
+
+        for v in exact.gs.vertex_gdc.keys():
+            if exact.gs.vertex_gdc[v] == 0:
+                error[v] = -1
+            else:
+                error[v] = abs(alg.gs.vertex_gdc[v] - exact.gs.vertex_gdc[v])
 
         return error

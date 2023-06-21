@@ -68,11 +68,11 @@ class GraphletStatistics():
         print("\n")
         print(f"Vertex Graphlet Counts:")
         for v in self.vertex_graphlet_cnt.keys():
-            vertext_graphlet_count_dict = dict()
+            vertex_graphlet_count_dict = dict()
             for i in range(NUM_OF_GRAPHLETS):
                 if self.vertex_graphlet_cnt[v][i] > 0:
-                    vertext_graphlet_count_dict[i] = self.vertex_graphlet_cnt[v][i]
-            print(f"{v}: {vertext_graphlet_count_dict}")
+                    vertex_graphlet_count_dict[i] = self.vertex_graphlet_cnt[v][i]
+            print(f"{v}: {vertex_graphlet_count_dict}")
 
         print("\n")
         print(f"Vertex Orbit Counts:")
@@ -116,6 +116,7 @@ class GraphletStatistics():
                 self.vertex_orbit_freq[v][i] = self.vertex_orbit_cnt[v][i] / \
                     self.total_num_of_orbits
 
+    ################################
     def calculate_gdc(self):
         for v in self.g.vertices:
             for i in range(NUM_OF_ORBITS):

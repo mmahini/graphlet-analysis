@@ -99,3 +99,5 @@ class Guise(GfdAglorithm):
         self.gs.calculate_frequencies()
         if (self.log):
             self.gs.write_frequencies()
+
+        self.gs.calculate_gdc()
