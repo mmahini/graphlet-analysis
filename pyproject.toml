@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "graphlet-analysis"
+version = "0.1.0"
+description = ""
+authors = ["Mohammad <m.mahini@gmail.com>", "Salman Qadami <salmanqadami@gmail.com>"]
+readme = "README.md"
+packages = [{include = "graphlet_analysis"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
