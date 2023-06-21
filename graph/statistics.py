@@ -24,9 +24,11 @@ class GraphletStatistics():
 
         self.vertex_orbit_cnt: dict[int, list] = dict()
         self.vertex_orbit_freq: dict[int, list] = dict()
+        self.vertex_gdc: dict[int, float] = dict()
         for v in g.vertices:
             self.vertex_orbit_cnt[v] = [0 for _ in range(NUM_OF_ORBITS)]
             self.vertex_orbit_freq[v] = [0.0 for _ in range(NUM_OF_ORBITS)]
+            self.vertex_gdc[v] = 0
 
     ################################
     def add_to_statistics(self, graphlet: SubGraphlet, graphlet_type=-1):
@@ -81,6 +83,11 @@ class GraphletStatistics():
                     vertext_orbit_count_dict[i] = self.vertex_orbit_cnt[v][i]
             print(f"{v}: {vertext_orbit_count_dict}")
 
+        print("\n")
+        print(f"Vertex Graphlet Degree Centralities (GDC):")
+        for v in self.g.vertices:
+            print(f"{v}: {round(self.vertex_gdc[v],3)}")
+
     ################################
     def get_orbit_count(self):
         if self.total_num_of_orbits == 0:
@@ -108,6 +115,11 @@ class GraphletStatistics():
             for i in range(NUM_OF_ORBITS):
                 self.vertex_orbit_freq[v][i] = self.vertex_orbit_cnt[v][i] / \
                     self.total_num_of_orbits
+
+    def calculate_gdc(self):
+        for v in self.g.vertices:
+            for i in range(NUM_OF_ORBITS):
+                self.vertex_gdc[v] += OrbitTemplates().orbit_degree_weight[i] * self.vertex_orbit_freq[v][i]
 
     ################################
     def write_frequencies(self):

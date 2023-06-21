@@ -227,3 +227,4 @@ class Exact(GfdAglorithm):
             self.gs.write()
 
         self.gs.calculate_frequencies()
+        self.gs.calculate_gdc()
