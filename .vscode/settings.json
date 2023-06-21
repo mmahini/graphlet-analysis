@@ -2,5 +2,6 @@
     "cSpell.words": [
         "Graphlet",
         "graphlets"
-    ]
+    ],
+    "cmake.configureOnOpen": true
 }
