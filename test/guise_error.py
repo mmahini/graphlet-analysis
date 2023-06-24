@@ -20,6 +20,8 @@ def guise_error_calculation():
     vertex_orbit_count_ed = EpsilonDelta([0.01, 0.005, 0.002, 0.001])
     vertex_graphlet_degree_centrality_ed = EpsilonDelta([0.05, 0.02, 0.01, 0.005])
 
+    total_average_gdc_list = list()
+
     for i in range(20):
         print(f"run {i} ...")
 
@@ -43,6 +45,9 @@ def guise_error_calculation():
 
         error_gdc = GfdUtils().calc_vertex_graphlet_degree_centrality_error(guise, exact)
         vertex_graphlet_degree_centrality_ed.append_vertex_graphlet_degree_centrality_error(error_gdc)
+        
+        average_gdc = sum(exact.gs.vertex_gdc.values()) / len(exact.gs.vertex_gdc.values())
+        total_average_gdc_list.append(average_gdc)
 
     graphlet_count_ed.calc_delta()
     vertex_graphlet_count_ed.calc_delta()
@@ -60,6 +65,9 @@ def guise_error_calculation():
     
     print("\nvertex graphlet degree centrality")
     vertex_graphlet_degree_centrality_ed.write()
+    
+    total_average_gdc = sum(total_average_gdc_list) / len(total_average_gdc_list)
+    print(f"\ntotal average gdc:    {total_average_gdc}")
 
 
 if __name__ == "__main__":
