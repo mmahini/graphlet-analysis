@@ -99,6 +99,8 @@ class Exact(GfdAglorithm):
 
         for v in g.vertices:
             for u in g.nei[v]:
+                if u <= v:
+                    continue
                 for w in g.nei[v]:
                     if w <= u:
                         continue
@@ -145,6 +147,8 @@ class Exact(GfdAglorithm):
 
         for v in g.vertices:
             for u in g.nei[v]:
+                if u <= v:
+                    continue
                 for w in g.nei[u]:
                     if w == v:
                         continue
@@ -186,6 +190,8 @@ class Exact(GfdAglorithm):
 
         for v in g.vertices:
             for u in g.nei[v]:
+                if u <= v:
+                    continue
                 for w in g.nei[u]:
                     if w == v:
                         continue
