@@ -4,7 +4,7 @@ sys.path.insert(1, os.getcwd())
 
 from typing import List
 from graph.templates import GraphletTemplates
-from utils.graph import GraphUtils
+from graph.utils.graph import GraphUtils
 
 # Print predefined graphlet templates based on The Paper
 if __name__ == "__main__":

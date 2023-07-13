@@ -4,10 +4,11 @@ sys.path.insert(1, os.getcwd())
 
 import time
 from concurrent.futures import ThreadPoolExecutor
+from algorithms.epsilon_delta import EpsilonDelta
 from graph.graph import Graph, GraphFactory
-from algorithms.guise import Guise
-from algorithms.gfd import EpsilonDelta, GfdUtils
-from algorithms.exact import Exact
+from graph.algorithms.guise import Guise
+from graph.algorithms.gfd import GfdUtils
+from graph.algorithms.exact import Exact
 
 
 # Test guise graphlet count diff with exact count
