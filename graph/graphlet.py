@@ -1,7 +1,7 @@
 from utils.singleton import singleton
 from graph.graph import Graph
 from graph.templates import GraphletTemplates, OrbitTemplates
-from utils.graph import GraphUtils
+from graph.utils.graph import GraphUtils
 from typing import List
 
 NUM_OF_GRAPHLETS = 30
