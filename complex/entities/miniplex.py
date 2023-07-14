@@ -9,8 +9,16 @@ class Miniplex(SimplicialComplex):
 
     def __init__(self, complex: SimplicialComplex):
         super(SimplicialComplex, self).__init__()
+        self.root = complex
+        
+        self.e = -1
+        self.vertices = set()
+        self.triplets = list[tuple]()
+        self.quartets = list[tuple]()
+        self.mark = dict()
+        self.nei = dict()
 
-    def addVertex(self, v: int):
+    def add_vertex(self, v: int):
         self.vertices.add(v)
         self.mark[v] = False
         self.nei[v] = set()

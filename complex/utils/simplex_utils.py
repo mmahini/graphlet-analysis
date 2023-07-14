@@ -2,6 +2,8 @@ from utils.singleton import singleton
 from complex.templates import MiniplexTemplates
 from complex.entities.simplicial_complex import SimplicialComplex
 
+WRONG_MINIPLEX_TYPE = -1
+
 
 @singleton
 class SimplexUtils():
@@ -34,15 +36,75 @@ class SimplexUtils():
         return True
 
     def calc_miniplex_type(self, complex: SimplicialComplex) -> int:
-        miniplex_templates = MiniplexTemplates().list()
-        for (k, miniplex) in miniplex_templates.items():
+        type = WRONG_MINIPLEX_TYPE
+        templates = MiniplexTemplates().list()
+        for (k, miniplex) in templates.items():
             if self.is_equal_degree_map(complex, miniplex):
                 # handle special cases
-                # if k == 11:
-                #     return self.get_type_between_graphlet_11_12(g)
-                # if k == 24:
-                #     return self.get_type_between_graphlet_24_27(g)
-                return k
+                if k == 2:
+                    type = self.calc_miniplex_type_between_2_3(complex)
+                elif k == 5:
+                    type = self.calc_miniplex_type_between_5_6(complex)
+                elif k == 7:
+                    type = self.calc_miniplex_type_between_7_9(complex)
+                elif k == 12:
+                    type = self.calc_miniplex_type_between_12_20(complex)
+                else:
+                    type = k
+                break
 
-        print(g)
-        raise ValueError('wrong calculation of miniplex type')
+        if (type == WRONG_MINIPLEX_TYPE):
+            complex.write()
+            raise ValueError('wrong calculation of miniplex type')
+        else:
+            return type
+
+    def calc_miniplex_type_between_2_3(self, complex: SimplicialComplex) -> int:
+        if len(complex.triplets) == 0:
+            return 2
+        elif len(complex.triplets) == 1:
+            return 3
+        else:
+            return WRONG_MINIPLEX_TYPE
+
+    def calc_miniplex_type_between_5_6(self, complex: SimplicialComplex) -> int:
+        if len(complex.triplets) == 0:
+            return 5
+        elif len(complex.triplets) == 1:
+            return 6
+        else:
+            return WRONG_MINIPLEX_TYPE
+
+    def calc_miniplex_type_between_7_9(self, complex: SimplicialComplex) -> int:
+        if len(complex.triplets) == 0:
+            return 7
+        elif len(complex.triplets) == 1:
+            return 8
+        elif len(complex.triplets) == 2:
+            return 9
+        else:
+            return WRONG_MINIPLEX_TYPE
+
+    def calc_miniplex_type_between_12_20(self, complex: SimplicialComplex) -> int:
+        if len(complex.quartets) == 0:
+            if len(complex.triplets) == 0:
+                return 12
+            if len(complex.triplets) == 1:
+                return 13
+            elif len(complex.triplets) == 2:
+                return 14
+            elif len(complex.triplets) == 3:
+                return 15
+            elif len(complex.triplets) == 4:
+                return 16
+        elif len(complex.quartets) == 1:
+            if len(complex.triplets) == 1:
+                return 17
+            elif len(complex.triplets) == 2:
+                return 18
+            elif len(complex.triplets) == 3:
+                return 19
+            elif len(complex.triplets) == 4:
+                return 20
+
+        return WRONG_MINIPLEX_TYPE

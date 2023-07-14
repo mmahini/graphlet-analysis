@@ -48,7 +48,6 @@ class SimplicialComplexFactory():
 
         try:
             while (True):
-                print("a")
                 row: tuple = input().split(" ")
                 if (len(row) == 2):
                     v = int(row[0])

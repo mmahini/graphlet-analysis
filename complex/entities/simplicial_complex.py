@@ -63,8 +63,8 @@ class SimplicialComplex(TopologicalObject):
         return e
 
     def write(self):
-        e = self.countE()
-        n = len(self.vertices)
+        e = len(self.vertices)
+        n = self.countE()
         print(f"{e}\n{n}")
 
         for v in self.vertices:
