@@ -1,4 +1,3 @@
-from complex.graph import Graph
 from complex.statistics import MiniplexStatistics
 from complex.entities.simplicial_complex import SimplicialComplex
 from abc import ABC

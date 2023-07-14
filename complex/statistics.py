@@ -26,7 +26,7 @@ class MiniplexStatistics():
         new_count = self.miniplex_cnt[miniplex_type] / coef
         self.total_num_of_miniplexes -= (
             self.miniplex_cnt[miniplex_type] - new_count)
-        self.miniplex_cnt[miniplex_type] = new_count
+        self.miniplex_cnt[miniplex_type] = int(new_count)
 
     def calculate_frequencies(self):
         for i in range(NUM_OF_MINIPLEXES):
