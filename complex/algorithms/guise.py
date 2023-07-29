@@ -1,5 +1,6 @@
-from complex.graphlet import SubGraphlet, SubGraphletFactory, NUM_OF_GRAPHLETS
 from complex.statistics import MiniplexStatistics
+from complex.core.miniplex_factory import MiniplexFactory
+from complex.entities.miniplex import Miniplex
 from complex.entities.simplicial_complex import SimplicialComplex
 from complex.algorithms.mfd import MfdAglorithm
 from random import randint, random
@@ -7,97 +8,101 @@ from random import randint, random
 
 class Guise(MfdAglorithm):
 
-    def populate_neighbor(self, sub_graphlet: SubGraphlet) -> list[SubGraphlet]:
-        neighbor_vertices = sub_graphlet.get_neighbor_vertices()
-        neighbors: list[SubGraphlet] = []
+    def populate_neighbor(self, miniplex: Miniplex) -> list[Miniplex]:
+        neighbor_vertices = miniplex.get_neighbor_vertices()
+        neighbors: list[Miniplex] = []
 
-        # sub_graphlet - {i}
-        if sub_graphlet.countV() > 2:
-            for i in sub_graphlet.vertices:
-                sg: SubGraphlet = SubGraphletFactory().get_copy(sub_graphlet)
-                sg.remove(i)
-                if sg.is_connected():
-                    neighbors.append(sg)
+        # miniplex - {i}
+        if len(miniplex.vertices) > 2:
+            for i in miniplex.vertices:
+                mp: Miniplex = MiniplexFactory().create_copy(miniplex)
+                mp.remove_vertex(i)
+                if mp.is_connected():
+                    neighbors.append(mp)
 
-        # sub_graphlet - {i} + {v}
-        for i in sub_graphlet.vertices:
+        # miniplex - {i} + {v}
+        for i in miniplex.vertices:
             for v in neighbor_vertices:
-                sg: SubGraphlet = SubGraphletFactory().get_copy(sub_graphlet)
-                sg.remove(i)
-                sg.add(v)
-                if sg.is_connected():
-                    neighbors.append(sg)
+                mp: Miniplex = MiniplexFactory().create_copy(miniplex)
+                mp.remove_vertex(i)
+                mp.add_vertex(v)
+                mp.add_vertex_simplex(v)
+                if mp.is_connected():
+                    neighbors.append(mp)
 
-        if sub_graphlet.countV() < 5:
-            # sub_graphlet + {v}
+        if len(miniplex.vertices) < 4:
+            # miniplex + {v}
             for v in neighbor_vertices:
-                sg: SubGraphlet = SubGraphletFactory().get_copy(sub_graphlet)
-                sg.add(v)
-                if sg.is_connected():
-                    neighbors.append(sg)
+                mp: Miniplex = MiniplexFactory().create_copy(miniplex)
+                mp.add_vertex(v)
+                # mp.add_vertex_simplex(v)
+                if mp.is_connected():
+                    neighbors.append(mp)
 
         return neighbors
 
-    def get_initial_graphlet(self) -> SubGraphlet:
-        sub_graphlet: SubGraphlet = SubGraphletFactory().get_instance(self.g)
+    def get_initial_miniplex(self) -> Miniplex:
+        miniplex: Miniplex = MiniplexFactory().create_instance(self.complex)
 
         v = -1
-        for i in self.g.vertices:
-            if len(self.g.nei[i]) >= 2:
+        for i in self.complex.vertices:
+            if len(self.complex.nei[i]) >= 2:
                 v = i
                 break
 
         if v == -1:
-            if (self.log):
-                print("Shiiiiiiiit !!!")
+            raise ValueError('wrong calculation of initial miniplex')
 
-        sub_graphlet.add(v)
+        miniplex.add_vertex(v)
 
-        nei = list(self.g.nei[v])
-        sub_graphlet.add(nei[0])
-        sub_graphlet.add(nei[1])
+        nei = list(self.complex.nei[v])
+        miniplex.add_vertex(nei[0])
+        miniplex.add_vertex(nei[1])
 
-        return sub_graphlet
+        miniplex.add_triplets()
+        miniplex.add_quartets()
 
-    def random_walk(self, sub_graph: SubGraphlet, steps: int, counting: bool):
+        return miniplex
+
+    def random_walk(self, miniplex: Miniplex, steps: int, counting: bool):
         if (self.log):
             print("random walk started ...")
-        neighbors: list[SubGraphlet] = self.populate_neighbor(sub_graph)
+
+        neighbors: list[Miniplex] = self.populate_neighbor(miniplex)
         for i in range(steps):
             # random select from neighbors
             index = randint(0, len(neighbors)-1)
             selected_neighbor = neighbors[index]
             neighbors_of_neighbor = self.populate_neighbor(selected_neighbor)
             acceptance_probability = min(
-                len(neighbors)/len(neighbors_of_neighbor), 1)
+                len(neighbors)/len(neighbors_of_neighbor), 1
+            )
             if random() <= acceptance_probability:
-                sub_graph = selected_neighbor
+                miniplex = selected_neighbor
                 neighbors = neighbors_of_neighbor
 
             if counting:
-                self.gs.add_to_statistics(sub_graph)
+                self.statistics.add_statistic(miniplex)
 
-        return sub_graph
+        return miniplex
 
     def run(self, stationary_steps: int, steps: int):
         if (self.log):
             print("-------- guise --------")
 
-        random_sub_graphlet: SubGraphlet = self.get_initial_graphlet()
+        random_miniplex: Miniplex = self.get_initial_miniplex()
 
         # get to stationary point
         if (self.log):
             print("guise :: start finding stationary ...")
-        random_sub_graphlet = self.random_walk(
-            random_sub_graphlet, stationary_steps, counting=False)
+        random_miniplex = self.random_walk(
+            random_miniplex, stationary_steps, counting=False)
 
         # counting
         if (self.log):
             print("guise :: counting started ...")
-        self.random_walk(random_sub_graphlet, steps, counting=True)
+        self.random_walk(random_miniplex, steps, counting=True)
 
-        self.gs.calculate_frequencies()
+        self.statistics.calculate_frequencies()
         if (self.log):
-            self.gs.write_frequencies()
-
-        self.gs.calculate_gdc()
+            self.statistics.write_frequencies()
