@@ -55,9 +55,9 @@ class SimplicialComplexFactory():
                     complex.nei[v].add(u)
                     complex.nei[u].add(v)
                 elif (len(row) == 3):
-                    complex.triplets.append(sorted(row))
+                    complex.triplets.append(sorted(tuple(int(row_item) for row_item in row)))
                 elif (len(row) == 4):
-                    complex.quartets.append(sorted(row))
+                    complex.quartets.append(sorted(tuple(int(row_item) for row_item in row)))
                 else:
                     raise RuntimeError(
                         'more than 4 dimensions simplex is not supported'
