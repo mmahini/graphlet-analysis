@@ -57,7 +57,7 @@ class Miniplex(SimplicialComplex):
             if v in q:
                 vertices = tuple(int(item) for item in q)
                 if (set(vertices).issubset(self.vertices)):
-                    self.quartets.append(t)
+                    self.quartets.append(q)
 
     def add_triplets(self):
         for t in self.root.triplets:
@@ -69,7 +69,7 @@ class Miniplex(SimplicialComplex):
         for q in self.root.quartets:
             vertices = tuple(int(item) for item in q)
             if (set(vertices).issubset(self.vertices)):
-                self.quartets.append(t)
+                self.quartets.append(q)
 
     def get_type(self) -> int:
         if self.type == -1:
