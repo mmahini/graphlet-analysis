@@ -20,7 +20,7 @@ class MiniplexFactory():
             new_miniplex.triplets.append(t)
 
         for q in miniplex.quartets:
-            new_miniplex.quartets.append(t)
+            new_miniplex.quartets.append(q)
 
         return new_miniplex
 

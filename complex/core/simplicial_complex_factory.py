@@ -1,3 +1,4 @@
+from random import random
 from utils.singleton import singleton
 from complex.entities.simplicial_complex import SimplicialComplex
 
@@ -36,6 +37,45 @@ class SimplicialComplexFactory():
                 raise RuntimeError(
                     'more than 4 dimensions simplex is not supported'
                 )
+
+        return complex
+
+    # create a new instance of a complex randomly
+    # @parameter n: number of nodes in complex
+    # @parameter p: probability of vertices ,between 0 and 1
+    # @parameter t: probability of triplets ,between 0 and 1
+    # @parameter q: probability of quartets ,between 0 and 1
+    def create_random_instance(self, n: int, p: float, t: float, q: float) -> SimplicialComplex:
+        complex = self.create_instance_with_n_vertices(n)
+
+        for i in range(0, n):
+            for j in range(i + 1, n):
+                # for i,j
+                if random() <= q:
+                    complex.add_vertices([i, j])
+                    complex.add_neighbors([[i, j]])
+
+        for i in range(0, n):
+            for j in range(i + 1, n):
+                for k in range(j + 1, n):
+                    # for i,j,k
+                    if (j in complex.nei[i]) and (k in complex.nei[i]) and (j in complex.nei[k]):
+                        # if random() <= q:
+                        complex.triplets.append([i, j, k])
+                    for w in range(k + 1, n):
+                        if (j in complex.nei[i]):
+                            if (k in complex.nei[i]):
+                                if (j in complex.nei[w]) and (k in complex.nei[w]):
+                                    if random() <= q:
+                                        complex.quartets.append([i, j, k, w])
+                            elif (w in complex.nei[i]):
+                                if (j in complex.nei[k]) and (w in complex.nei[k]):
+                                    if random() <= q:
+                                        complex.quartets.append([i, j, k, w])
+                        elif (k in complex.nei[i]) and (w in complex.nei[i]):
+                            if (w in complex.nei[j]) and (k in complex.nei[j]):
+                                if random() <= q:
+                                    complex.quartets.append([i, j, k, w])
 
         return complex
 

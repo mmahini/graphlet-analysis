@@ -33,6 +33,19 @@ class SimplicialComplex(TopologicalObject):
     def has_edge(self, v: int, u: int) -> bool:
         return u in self.nei[v]
 
+    def add_vertices(self, vertices: list[int]):
+        for v in vertices:
+            if v in self.vertices:
+                continue
+            self.vertices.add(v)
+            self.mark[v] = False
+            self.nei[v] = set()
+
+    def add_neighbors(self, neighbors: list[tuple[int]]):
+        for neighbor in neighbors:
+            self.nei[neighbor[0]].add(neighbor[1])
+            self.nei[neighbor[1]].add(neighbor[0])
+
     def countE(self):
         if self.e != -1:
             return self.e
@@ -43,24 +56,6 @@ class SimplicialComplex(TopologicalObject):
         self.e = int(self.e / 2)
 
         return self.e
-
-    # find number of edges in inductive sub-graph limited to "lst" as its vertices
-    def subgraph_count_edges(self, lst: List) -> int:
-        e: int = 0
-        for i in lst:
-            for j in lst:
-                if i in self.nei[j]:
-                    e = e + 1
-        e = e / 2
-        return e
-
-    # find degree of vertex "v" in inductive sub-graph that's limited to "lst" as its vertices
-    def subgraph_degree(self, v: int, lst: List) -> int:
-        e: int = 0
-        for i in lst:
-            if i in self.nei[v]:
-                e = e + 1
-        return e
 
     def write(self):
         e = len(self.vertices)

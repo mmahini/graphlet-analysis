@@ -24,8 +24,6 @@ def guise_error_calculation():
     exact.run()
     print(f"calc exact at {time.time() - start} seconds")
     
-    total_average_gdc_list = list()
-    
     for i in range(1):
         print(f"calc guise for {i}")
         start = time.time()
