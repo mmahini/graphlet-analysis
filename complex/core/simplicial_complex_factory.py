@@ -51,7 +51,7 @@ class SimplicialComplexFactory():
         for i in range(0, n):
             for j in range(i + 1, n):
                 # for i,j
-                if random() <= q:
+                if random() <= p:
                     complex.add_vertices([i, j])
                     complex.add_neighbors([[i, j]])
 
@@ -60,8 +60,8 @@ class SimplicialComplexFactory():
                 for k in range(j + 1, n):
                     # for i,j,k
                     if (j in complex.nei[i]) and (k in complex.nei[i]) and (j in complex.nei[k]):
-                        # if random() <= q:
-                        complex.triplets.append([i, j, k])
+                        if random() <= t:
+                            complex.triplets.append([i, j, k])
                     for w in range(k + 1, n):
                         if (j in complex.nei[i]):
                             if (k in complex.nei[i]):
