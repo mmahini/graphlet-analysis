@@ -120,6 +120,7 @@ class OrbitTemplates():
                        29: {(72, 0)},
                        }
 
+        # Orbit degree weight
         self.orbit_degree_weight = {0: 1,
                                     1: 1, 2: 2,                             
                                     3: 2,
