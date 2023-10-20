@@ -17,8 +17,6 @@ class Exact(GfdAglorithm):
                 ).create_subgraphlet(self.g, [v, u])
                 self.gs.add_to_statistics(sub_graphlet, 0)
 
-        self.gs.down_scale_count(graphlet_type=0, coef=2)
-
     # find exact number of graphlets with 3 vertices
     def gc3(self) -> None:
         for v in self.g.vertices:
@@ -86,12 +84,6 @@ class Exact(GfdAglorithm):
                         elif u in g.nei[x]:
                             self.gs.add_to_statistics(sub_graphlet, 5)
 
-        gs.down_scale_count(graphlet_type=3, coef=2)
-        gs.down_scale_count(graphlet_type=5, coef=2)
-        gs.down_scale_count(graphlet_type=6, coef=8)
-        gs.down_scale_count(graphlet_type=7, coef=12)
-        gs.down_scale_count(graphlet_type=8, coef=24)
-
     # find exact number of graphlets with 5 vertices
     def gc5(self) -> None:
         g = self.g
@@ -99,17 +91,12 @@ class Exact(GfdAglorithm):
 
         for v in g.vertices:
             for u in g.nei[v]:
-                if u <= v:
-                    continue
                 for w in g.nei[v]:
-                    if w <= u:
-                        continue
                     for x in g.nei[v]:
-                        if x <= w:
-                            continue
                         for y in g.nei[v]:
-                            if y <= x:
+                            if len({u, w, x, y, v}) != 5:
                                 continue
+
                             e: int = g.subgraph_countE([v, u, w, x, y])
                             sub_graphlet = SubGraphletFactory(
                             ).create_subgraphlet(g, [v, u, w, x, y])
@@ -147,17 +134,12 @@ class Exact(GfdAglorithm):
 
         for v in g.vertices:
             for u in g.nei[v]:
-                if u <= v:
-                    continue
                 for w in g.nei[u]:
-                    if w == v:
-                        continue
                     for x in g.nei[w]:
-                        if x == u or x == v:
-                            continue
                         for y in g.nei[x]:
-                            if y == u or y == v or y == w:
+                            if len({u, w, x, y, v}) != 5:
                                 continue
+
                             e: int = g.subgraph_countE([v, u, w, x, y])
                             sub_graphlet = SubGraphletFactory(
                             ).create_subgraphlet(g, [v, u, w, x, y])
@@ -181,17 +163,16 @@ class Exact(GfdAglorithm):
                             elif e == 6:
                                 if deg[1] == 1 and deg[2] == 1 and deg[3] == 3:
                                     self.gs.add_to_statistics(sub_graphlet, 14)
-                                if deg[2] == 3 and deg[3] == 2 and y not in g.nei[v]:
+                                if deg[2] == 3 and deg[3] == 2 and g.subgraph_countE([v, w, y]) == 0:
                                     self.gs.add_to_statistics(sub_graphlet, 24)
                                 if deg[2] == 3 and deg[3] == 2 and y in g.nei[v]:
                                     self.gs.add_to_statistics(sub_graphlet, 27)
                             elif e == 7:
-                                self.gs.add_to_statistics(sub_graphlet, 21)
+                                if deg[2] == 1 and deg[3] == 4:
+                                    self.gs.add_to_statistics(sub_graphlet, 21)
 
         for v in g.vertices:
             for u in g.nei[v]:
-                if u <= v:
-                    continue
                 for w in g.nei[u]:
                     if w == v:
                         continue
@@ -207,17 +188,6 @@ class Exact(GfdAglorithm):
                             ).create_subgraphlet(g, [v, u, w, x, y])
                             if e == 4:
                                 self.gs.add_to_statistics(sub_graphlet, 10)
-
-        gs.down_scale_count(graphlet_type=9, coef=2)
-        gs.down_scale_count(graphlet_type=14, coef=8)
-        gs.down_scale_count(graphlet_type=10, coef=2)
-        gs.down_scale_count(graphlet_type=15, coef=2)
-        gs.down_scale_count(graphlet_type=16, coef=2)
-        gs.down_scale_count(graphlet_type=17, coef=3)
-        gs.down_scale_count(graphlet_type=24, coef=12)
-        gs.down_scale_count(graphlet_type=25, coef=10)
-        gs.down_scale_count(graphlet_type=27, coef=10)
-        gs.down_scale_count(graphlet_type=29, coef=5)
 
     # find exact number of graphlets with 2-5 vertices numbered (0-29)
     def run(self):

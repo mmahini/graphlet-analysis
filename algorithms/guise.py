@@ -75,7 +75,7 @@ class Guise(GfdAglorithm):
                 neighbors = neighbors_of_neighbor
 
             if counting:
-                self.gs.add_to_statistics(sub_graph)
+                self.gs.add_to_statistics(sub_graph, allow_duplicate=True)
 
         return sub_graph
 

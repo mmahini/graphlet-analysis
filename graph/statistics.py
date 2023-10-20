@@ -30,21 +30,35 @@ class GraphletStatistics():
             self.vertex_orbit_freq[v] = [0.0 for _ in range(NUM_OF_ORBITS)]
             self.vertex_gdc[v] = 0
 
+        self.graphlets: dict[int, list] = dict()
+        for n in range(NUM_OF_GRAPHLETS):
+            self.graphlets[n] = list()
+
     ################################
-    def add_to_statistics(self, graphlet: SubGraphlet, graphlet_type=-1):
+    def add_to_statistics(self, graphlet: SubGraphlet, graphlet_type=-1, allow_duplicate=False):
         if graphlet_type == -1:
             graphlet_type = graphlet.get_graphlet_type()
 
-        # plus_one_graphlet
-        self.graphlet_cnt[graphlet_type] += 1
-        for v in graphlet.vertices:
-            # plus_one_graphlet_to_vertex
-            self.vertex_graphlet_cnt[v][graphlet_type] += 1
-            # plus_one_orbit_to_vertex
-            orbit_type = graphlet.get_orbit_type(v)
-            self.vertex_orbit_cnt[v][orbit_type] += 1
+        duplicate = False
+        if not allow_duplicate:
+            for g in self.graphlets[graphlet_type]:
+                if g.vertices == graphlet.vertices:
+                    duplicate = True
+                    break
 
-        self.total_num_of_graphlets += 1
+        if not duplicate:
+            self.graphlets[graphlet_type].append(graphlet)
+
+            # plus_one_graphlet
+            self.graphlet_cnt[graphlet_type] += 1
+            for v in graphlet.vertices:
+                # plus_one_graphlet_to_vertex
+                self.vertex_graphlet_cnt[v][graphlet_type] += 1
+                # plus_one_orbit_to_vertex
+                orbit_type = graphlet.get_orbit_type(v)
+                self.vertex_orbit_cnt[v][orbit_type] += 1
+
+            self.total_num_of_graphlets += 1
 
     # remove duplicate counted graphlet that calculated during exact graphlet count calculation
     def down_scale_count(self, graphlet_type: int, coef: int):
@@ -110,7 +124,7 @@ class GraphletStatistics():
 
         # call to ensure obit count was generated
         self.get_orbit_count()
-        
+
         for v in self.vertex_orbit_freq.keys():
             for i in range(NUM_OF_ORBITS):
                 self.vertex_orbit_freq[v][i] = self.vertex_orbit_cnt[v][i] / \
@@ -120,7 +134,8 @@ class GraphletStatistics():
     def calculate_gdc(self):
         for v in self.g.vertices:
             for i in range(NUM_OF_ORBITS):
-                self.vertex_gdc[v] += OrbitTemplates().orbit_degree_weight[i] * self.vertex_orbit_freq[v][i]
+                self.vertex_gdc[v] += OrbitTemplates().orbit_degree_weight[i] * \
+                    self.vertex_orbit_freq[v][i]
 
     ################################
     def write_frequencies(self):
