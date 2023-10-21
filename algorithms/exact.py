@@ -21,12 +21,9 @@ class Exact(GfdAglorithm):
     def gc3(self) -> None:
         for v in self.g.vertices:
             for u in self.g.nei[v]:
-                visited: set = {v, u}
-
                 for w in self.g.nei[v]:
-                    if w in visited:
+                    if w == u:
                         continue
-                    visited.add(w)
 
                     if w in self.g.nei[u]:
                         if w > u and u > v:
@@ -63,10 +60,10 @@ class Exact(GfdAglorithm):
                 for w in g.nei[u]:
                     if w == v:
                         continue
-
                     for x in g.nei[w]:
-                        if x == u or x == v:
+                        if x == v or x == u:
                             continue
+
                         sub_graphlet = SubGraphletFactory(
                         ).create_subgraphlet(g, [v, u, w, x])
                         e = sub_graphlet.countE()
@@ -92,9 +89,13 @@ class Exact(GfdAglorithm):
         for v in g.vertices:
             for u in g.nei[v]:
                 for w in g.nei[v]:
+                    if w <= u:
+                        continue
                     for x in g.nei[v]:
+                        if x <= w:
+                            continue
                         for y in g.nei[v]:
-                            if len({u, w, x, y, v}) != 5:
+                            if y <= x:
                                 continue
 
                             e: int = g.subgraph_countE([v, u, w, x, y])
@@ -135,9 +136,13 @@ class Exact(GfdAglorithm):
         for v in g.vertices:
             for u in g.nei[v]:
                 for w in g.nei[u]:
+                    if w == v:
+                        continue
                     for x in g.nei[w]:
+                        if x == v or x == u:
+                            continue
                         for y in g.nei[x]:
-                            if len({u, w, x, y, v}) != 5:
+                            if y == v or y == u or y == w:
                                 continue
 
                             e: int = g.subgraph_countE([v, u, w, x, y])
