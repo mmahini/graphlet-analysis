@@ -30,9 +30,9 @@ class GraphletStatistics():
             self.vertex_orbit_freq[v] = [0.0 for _ in range(NUM_OF_ORBITS)]
             self.vertex_gdc[v] = 0
 
-        self.graphlets: dict[int, list] = dict()
+        self.graphlets: dict[int, set] = dict()
         for n in range(NUM_OF_GRAPHLETS):
-            self.graphlets[n] = list()
+            self.graphlets[n] = set()
 
     ################################
     def add_to_statistics(self, graphlet: SubGraphlet, graphlet_type=-1, allow_duplicate=False):
@@ -41,13 +41,11 @@ class GraphletStatistics():
 
         duplicate = False
         if not allow_duplicate:
-            for g in self.graphlets[graphlet_type]:
-                if g.vertices == graphlet.vertices:
-                    duplicate = True
-                    break
+            if graphlet in self.graphlets[graphlet_type]:
+                duplicate = True
 
         if not duplicate:
-            self.graphlets[graphlet_type].append(graphlet)
+            self.graphlets[graphlet_type].add(graphlet)
 
             # plus_one_graphlet
             self.graphlet_cnt[graphlet_type] += 1
