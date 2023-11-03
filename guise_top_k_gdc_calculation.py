@@ -43,7 +43,7 @@ def t(n: int, p: float) -> float:
 
     guise_with_n_steps: Guise = Guise(g)
     guise_with_n_steps.run(stationary_steps, n_steps)
-    print(f"guise_with_n_steps vertex_gdc={[v for key, v in sorted(guise_with_n_steps.gs.vertex_gdc.items(), reverse=True, key=lambda item: item[1])]}")
+    # print(f"guise_with_n_steps vertex_gdc={[v for key, v in sorted(guise_with_n_steps.gs.vertex_gdc.items(), reverse=True, key=lambda item: item[1])]}")
         
     p = [v for key, v in sorted(guise_with_n_steps.gs.vertex_gdc.items(), reverse=True, key=lambda item: item[1])][k-1] - epsilon
     print(f"p={p}")
@@ -51,12 +51,12 @@ def t(n: int, p: float) -> float:
     if p <= 0:
         return -1
         
-    m_steps = int(n_steps / (p * 2))
+    m_steps = int(n_steps / p * 2)
     print(f"m_steps={m_steps}")
 
     guise_with_m_steps: Guise = Guise(g)
     guise_with_m_steps.run(stationary_steps, m_steps)
-    print(f"guise_with_m_steps vertex_gdc={[v for key, v in sorted(guise_with_m_steps.gs.vertex_gdc.items(), reverse=True, key=lambda item: item[1])]}")
+    # print(f"guise_with_m_steps vertex_gdc={[v for key, v in sorted(guise_with_m_steps.gs.vertex_gdc.items(), reverse=True, key=lambda item: item[1])]}")
 
     p_prime = [v for key, v in sorted(guise_with_m_steps.gs.vertex_gdc.items(), reverse=True, key=lambda item: item[1])][k - 1] / (1 + epsilon)
     print(f"p_prime={p_prime}")
@@ -64,18 +64,19 @@ def t(n: int, p: float) -> float:
     t_g_k = list()
     exact_top_gdc = dict()
 
-    for i in range(len(g.vertices)):
-        exact_top_gdc[i] = exact.gs.vertex_gdc[i]
-
-        if (guise_with_m_steps.gs.vertex_gdc[i] / (1 - epsilon) > p_prime):
-            t_g_k.append(i)
-
-    exact_top_k = [key for key, v in sorted(exact_top_gdc.items(), reverse=True, key=lambda item: item[1])][0:k]
-        
-    guise_correctness = len(set(exact_top_k) & set(t_g_k)) / len(exact_top_k)
+    exact_top_k = [key for key, v in sorted(exact.gs.vertex_gdc.items(), reverse=True, key=lambda item: item[1])][0:k]
+    guise_top_k = [key for key, v in sorted(guise_with_m_steps.gs.vertex_gdc.items(), reverse=True, key=lambda item: item[1])][0:k]
+    item_count = len(g.vertices)
+    correct_item_count = 0
+    for i in range(item_count):
+        if exact_top_k.__contains__(i):
+            if (abs(guise_with_m_steps.gs.vertex_gdc[i] - exact.gs.vertex_gdc[i]) <= epsilon * exact.gs.vertex_gdc[i]):
+                correct_item_count += 1
+        else:
+            if guise_with_m_steps.gs.vertex_gdc[i] <= (1 + epsilon) * p:
+                correct_item_count += 1
     
-    print(f"t_g_k: {t_g_k}")
-    print(f"exact_top_k: {exact_top_k}")
+    guise_correctness = correct_item_count / item_count
     print(f"guise_correctness: {guise_correctness}")
     print("\n")
     
