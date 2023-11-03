@@ -56,9 +56,9 @@ def t(n: int, p: float) -> float:
 
     guise_with_m_steps: Guise = Guise(g)
     guise_with_m_steps.run(stationary_steps, m_steps)
-    print(f"guise_with_m_steps vertex_gdc={[v for key, v in sorted(guise_with_n_steps.gs.vertex_gdc.items(), reverse=True, key=lambda item: item[1])]}")
+    print(f"guise_with_m_steps vertex_gdc={[v for key, v in sorted(guise_with_m_steps.gs.vertex_gdc.items(), reverse=True, key=lambda item: item[1])]}")
 
-    p_prime = [v for key, v in sorted(guise_with_n_steps.gs.vertex_gdc.items(), reverse=True, key=lambda item: item[1])][k - 1] / (1 + epsilon)
+    p_prime = [v for key, v in sorted(guise_with_m_steps.gs.vertex_gdc.items(), reverse=True, key=lambda item: item[1])][k - 1] / (1 + epsilon)
     print(f"p_prime={p_prime}")
 
     t_g_k = list()
