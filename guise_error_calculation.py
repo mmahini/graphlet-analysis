@@ -81,10 +81,10 @@ def do_calculation():
     for p in process_list:
         p.join()
 
-    graphlet_count_ed = EpsilonDelta([0.1, 0.05, 0.02, 0.01])
-    vertex_graphlet_count_ed = EpsilonDelta([0.05, 0.02, 0.01, 0.005])
-    vertex_orbit_count_ed = EpsilonDelta([0.01, 0.005, 0.002, 0.001])
-    vertex_graphlet_degree_centrality_ed = EpsilonDelta([0.05, 0.02, 0.01, 0.005])
+    graphlet_count_ed = EpsilonDelta([0.02, 0.01, 0.0075, 0.005])
+    vertex_graphlet_count_ed = EpsilonDelta([0.01, 0.0075, 0.005, 0.0025])
+    vertex_orbit_count_ed = EpsilonDelta([0.002, 0.001, 0.00075, 0.0005])
+    vertex_graphlet_degree_centrality_ed = EpsilonDelta([0.05, 0.025, 0.01, 0.0075])
 
     # read calculated errors from file
     for i in range(num_of_running_alg):
