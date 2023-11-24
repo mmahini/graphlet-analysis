@@ -10,8 +10,8 @@ from multiprocessing import Pool, Process
 
 num_of_running_alg = 10
 files_path = './t-files'
-stationary_steps = 10000
-n_steps = 10000
+stationary_steps = 1000
+n_steps = 1000
 
 
 def file_uri_gfd(i=0) -> str:
@@ -81,10 +81,10 @@ def do_calculation():
     for p in process_list:
         p.join()
 
-    graphlet_count_ed = EpsilonDelta([0.01])
-    vertex_graphlet_count_ed = EpsilonDelta([0.01])
-    vertex_orbit_count_ed = EpsilonDelta([0.002])
-    vertex_graphlet_degree_centrality_ed = EpsilonDelta([0.01])
+    graphlet_count_ed = EpsilonDelta([0.1, 0.05, 0.02, 0.01])
+    vertex_graphlet_count_ed = EpsilonDelta([0.05, 0.02, 0.01, 0.005])
+    vertex_orbit_count_ed = EpsilonDelta([0.01, 0.005, 0.002, 0.001])
+    vertex_graphlet_degree_centrality_ed = EpsilonDelta([0.05, 0.02, 0.01, 0.005])
 
     # read calculated errors from file
     for i in range(num_of_running_alg):
