@@ -118,3 +118,41 @@ class GfdUtils():
                 error[v] = abs(alg.gs.vertex_gdc[v] - exact.gs.vertex_gdc[v])
 
         return error
+
+    def calc_gfd_top_kـcorrectness(self, alg: GfdAglorithm,  exact: GfdAglorithm):
+        top_k_correctness = list()
+        for i in [1, 2, 4]:
+            correctness = self.calc_top_kـcorrectness(
+                dict(enumerate(alg.gs.graphlet_freq)),
+                dict(enumerate(exact.gs.graphlet_freq)),
+                i * 5)
+            top_k_correctness.append(correctness)
+        return top_k_correctness
+
+    def calc_gcd_top_kـcorrectness(self, alg: GfdAglorithm,  exact: GfdAglorithm):
+        top_k_correctness = list()
+        for i in [1, 2, 4]:
+            correctness = self.calc_top_kـcorrectness(
+                alg.gs.vertex_gdc,
+                exact.gs.vertex_gdc,
+                i * 5)
+            top_k_correctness.append(correctness)
+        return top_k_correctness
+
+    def calc_top_kـcorrectness(self, d1: dict,  d2: dict, k: int):
+        l1 = list(d1.items())
+        l2 = list(d2.items())
+
+        l1.sort(reverse=True, key=lambda x: x[1])
+        l2.sort(reverse=True, key=lambda x: x[1])
+
+    
+        list_a = list(map(lambda x: x[0], l1[0: k])) # [i[0] for i in l1]
+        list_b = list(map(lambda x: x[0], l2[0: k])) # [i[0] for i in l2]
+
+        # Get the number of elements in list B that exist in list A
+        common_elements = len(set(list_b).intersection(list_a))
+        # Calculate the percentage of list B existing in list A
+        percentage = (common_elements/len(list_b)) * 100
+
+        return percentage

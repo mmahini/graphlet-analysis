@@ -9,15 +9,18 @@ from algorithms.guise import Guise
 from algorithms.gfd import EpsilonDelta, GfdUtils
 from algorithms.exact import Exact
 
+num_of_running_alg = 10
+stationary_steps = 1000
+n_steps = 1000
 
 # Test guise graphlet count diff with exact count
 def guise_error_calculation():
     g: Graph = GraphFactory().load_graph_from_cmd()
 
-    graphlet_count_ed = EpsilonDelta([0.1, 0.05, 0.02, 0.01])
-    vertex_graphlet_count_ed = EpsilonDelta([0.05, 0.02, 0.01, 0.005])
-    vertex_orbit_count_ed = EpsilonDelta([0.01, 0.005, 0.002, 0.001])
-    vertex_graphlet_degree_centrality_ed = EpsilonDelta([0.05, 0.02, 0.01, 0.005])
+    graphlet_count_ed = EpsilonDelta([0.02, 0.01, 0.0075, 0.005])
+    vertex_graphlet_count_ed = EpsilonDelta([0.01, 0.0075, 0.005, 0.0025])
+    vertex_orbit_count_ed = EpsilonDelta([0.002, 0.001, 0.00075, 0.0005])
+    vertex_graphlet_degree_centrality_ed = EpsilonDelta([0.05, 0.025, 0.01, 0.0075])
 
     print("calc exact")
     start = time.time()
@@ -27,11 +30,11 @@ def guise_error_calculation():
     
     total_average_gdc_list = list()
     
-    for i in range(20):
+    for i in range(num_of_running_alg):
         print(f"calc guise for {i}")
         start = time.time()
         guise: Guise = Guise(g)
-        guise.run(10000, 10000)
+        guise.run(stationary_steps, n_steps)
         print(f"calc guise at {time.time() - start} seconds")
 
         error_gc = GfdUtils().calc_graphlet_count_error(guise, exact)

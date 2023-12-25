@@ -64,6 +64,20 @@ class SubGraphlet(InducedSubGraph):
 
         raise ValueError('wrong calculation of orbit type')
 
+    def __eq__(self, other):
+        if isinstance(other, SubGraphlet):
+            return self.vertices == other.vertices
+        return NotImplemented
+
+    def __ne__(self, other):
+        x = self.__eq__(other)
+        if x is NotImplemented:
+            return NotImplemented
+        return not x
+    
+    def __hash__(self):
+        return hash(tuple(sorted(self.vertices)))
+
 
 @singleton
 class SubGraphletFactory():
