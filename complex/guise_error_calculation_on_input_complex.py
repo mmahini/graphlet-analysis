@@ -22,14 +22,20 @@ def guise_error_calculation():
     start = time.time()
     exact: Exact = Exact(complex)
     exact.run()
-    print(f"calc exact at {time.time() - start} seconds")
+    print('---------- exact -------------')
+    exact.statistics.write()
+    print('-----------------------')
+    # print(f"calc exact at {time.time() - start} seconds")
     
     for i in range(1):
-        print(f"calc guise for {i}")
+        # print(f"calc guise for {i}")
         start = time.time()
         guise: Guise = Guise(complex)
         guise.run(10000, 10000)
-        print(f"calc guise at {time.time() - start} seconds")
+        print('---------- guise -------------')
+        guise.statistics.write()
+        print('-----------------------')
+        # print(f"calc guise at {time.time() - start} seconds")
 
         error_mc = MfdUtils().calc_miniplex_count_error(guise, exact)
         miniplex_count_ed.append_graphlet_count_error(error_mc)

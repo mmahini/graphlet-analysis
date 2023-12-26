@@ -110,3 +110,17 @@ class Miniplex(SimplicialComplex):
             if not self.mark[v]:
                 return False
         return True
+
+    def __eq__(self, other):
+        if isinstance(other, Miniplex):
+            return self.vertices == other.vertices
+        return NotImplemented
+
+    def __ne__(self, other):
+        x = self.__eq__(other)
+        if x is NotImplemented:
+            return NotImplemented
+        return not x
+    
+    def __hash__(self):
+        return hash(tuple(sorted(self.vertices)))

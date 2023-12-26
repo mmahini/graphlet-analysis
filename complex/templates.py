@@ -10,7 +10,7 @@ NUM_OF_MINIPLEXES = 21
 class MiniplexTemplates():
     def __init__(self):
         self.initialized = False
-        self.miniplexes: dict[int, Simp] = dict()
+        self.miniplexes: dict[int, SimplicialComplex] = dict()
 
     def list(self) -> dict[int, SimplicialComplex]:
         if self.initialized:

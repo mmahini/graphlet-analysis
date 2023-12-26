@@ -82,7 +82,7 @@ class Guise(MfdAglorithm):
                 neighbors = neighbors_of_neighbor
 
             if counting:
-                self.statistics.add_statistic(miniplex)
+                self.statistics.add_statistic(miniplex, allow_duplicate=True)
 
         return miniplex
 

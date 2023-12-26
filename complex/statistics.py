@@ -12,14 +12,24 @@ class MiniplexStatistics():
 
         self.miniplex_cnt = [0 for _ in range(NUM_OF_MINIPLEXES)]
         self.miniplex_freq = [0.0 for _ in range(NUM_OF_MINIPLEXES)]
+        
+        self.miniplexes: dict[int, set] = dict()
+        for n in range(NUM_OF_MINIPLEXES):
+            self.miniplexes[n] = set()
 
-    def add_statistic(self, miniplex: Miniplex, miniplex_type=-1):
+    def add_statistic(self, miniplex: Miniplex, miniplex_type=-1, allow_duplicate=False):
         if miniplex_type == -1:
             miniplex_type = miniplex.get_type()
 
-        self.miniplex_cnt[miniplex_type] += 1
+        duplicate = False
+        if not allow_duplicate:
+            if miniplex in self.miniplexes[miniplex_type]:
+                duplicate = True
 
-        self.total_num_of_miniplexes += 1
+        if not duplicate:
+            self.miniplexes[miniplex_type].add(miniplex)
+            self.miniplex_cnt[miniplex_type] += 1
+            self.total_num_of_miniplexes += 1
 
     # remove duplicate counted miniplex that calculated during exact miniplex count calculation
     def down_scale_count(self, miniplex_type: int, coef: int):

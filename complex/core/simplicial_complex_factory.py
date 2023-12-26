@@ -55,27 +55,28 @@ class SimplicialComplexFactory():
                     complex.add_vertices([i, j])
                     complex.add_neighbors([[i, j]])
 
+        # (i, j, k)
         for i in range(0, n):
             for j in range(i + 1, n):
-                for k in range(j + 1, n):
-                    # for i,j,k
+                for k in range(j + 1, n):   
+                    # (i, j, k)
                     if (j in complex.nei[i]) and (k in complex.nei[i]) and (j in complex.nei[k]):
                         if random() <= t:
                             complex.triplets.append([i, j, k])
-                    for w in range(k + 1, n):
-                        if (j in complex.nei[i]):
-                            if (k in complex.nei[i]):
-                                if (j in complex.nei[w]) and (k in complex.nei[w]):
-                                    if random() <= q:
-                                        complex.quartets.append([i, j, k, w])
-                            elif (w in complex.nei[i]):
-                                if (j in complex.nei[k]) and (w in complex.nei[k]):
-                                    if random() <= q:
-                                        complex.quartets.append([i, j, k, w])
-                        elif (k in complex.nei[i]) and (w in complex.nei[i]):
-                            if (w in complex.nei[j]) and (k in complex.nei[j]):
-                                if random() <= q:
-                                    complex.quartets.append([i, j, k, w])
+        
+        # (i, j, k, w)
+        for i in range(0, n):
+            for j in range(i + 1, n):
+                for k in range(j + 1, n):   
+                    if (j in complex.nei[i]) and (k in complex.nei[i]) and (j in complex.nei[k]):
+                        for w in range(k + 1, n):
+                            if (w in complex.nei[i]) and (w in complex.nei[j]) and (w in complex.nei[k]):
+                                if sorted(tuple([i,j,k])) in complex.triplets \
+                                    and sorted(tuple([i,j,w])) in complex.triplets \
+                                    and sorted(tuple([i,k,w])) in complex.triplets \
+                                    and sorted(tuple([j,k,w])) in complex.triplets:
+                                        if random() <= q:
+                                            complex.quartets.append([i, j, k, w])
 
         return complex
 
