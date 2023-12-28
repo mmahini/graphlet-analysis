@@ -29,7 +29,7 @@ class GraphUtils():
 
         return True
 
-    def calc_graphlet_type(self, g : Graph) -> int:
+    def calc_graphlet_type(self, g: Graph) -> int:
         graphlet_templates = GraphletTemplates().list()
         for (k, graphlet) in graphlet_templates.items():
             if self.is_equal_degree_map(g, graphlet):
@@ -39,7 +39,7 @@ class GraphUtils():
                 if k == 24:
                     return self.get_type_between_graphlet_24_27(g)
                 return k
-        
+
         print(g)
         raise ValueError('wrong calculation of graphlet type')
 

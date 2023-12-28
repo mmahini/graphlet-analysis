@@ -5,7 +5,7 @@ sys.path.insert(1, os.getcwd())
 from typing import List
 from graph.templates import GraphletTemplates
 from graph.graphlet import SubGraphlet, NUM_OF_GRAPHLETS
-from utils.graph import GraphUtils
+from graph.utils.graph import GraphUtils
 
 # Test graphlet type calculation based on GraphletTemplates list.
 if __name__ == "__main__":

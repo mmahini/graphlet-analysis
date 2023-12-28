@@ -2,10 +2,11 @@
 
 import os
 import ast
+from algorithms.epsilon_delta import EpsilonDelta
 from graph.graph import Graph, GraphFactory
-from algorithms.guise import Guise
-from algorithms.gfd import GfdUtils, EpsilonDelta
-from algorithms.exact import Exact
+from graph.algorithms.guise import Guise
+from graph.algorithms.gfd import GfdUtils
+from graph.algorithms.exact import Exact
 from multiprocessing import Pool, Process
 
 num_of_running_alg = 10

@@ -4,7 +4,7 @@ from typing import List
 from graph.graph import Graph
 from graph.statistics import GraphletStatistics
 from graph.graphlet import SubGraphletFactory
-from algorithms.gfd import GfdAglorithm
+from graph.algorithms.gfd import GfdAglorithm
 
 
 class Exact(GfdAglorithm):
