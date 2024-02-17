@@ -1,7 +1,7 @@
 from graph.graphlet import SubGraphlet, SubGraphletFactory, NUM_OF_GRAPHLETS
 from graph.statistics import GraphletStatistics
 from graph.graph import Graph
-from algorithms.gfd import GfdAglorithm
+from graph.algorithms.gfd import GfdAglorithm
 from random import randint, random
 
 

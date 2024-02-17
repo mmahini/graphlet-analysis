@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
+import sys, os, ast
+sys.path.insert(1, os.getcwd())
 
-import os
-import ast
 from algorithms.epsilon_delta import EpsilonDelta
 from graph.graph import Graph, GraphFactory
 from graph.algorithms.guise import Guise

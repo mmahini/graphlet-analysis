@@ -16,7 +16,7 @@ from complex.utils.mfd import MfdUtils
 def guise_error_calculation():
     complex: SimplicialComplex = SimplicialComplexFactory().load_from_cmd()
 
-    miniplex_count_ed = EpsilonDelta([0.1, 0.05, 0.02, 0.01])
+    miniplex_count_ed = EpsilonDelta([0.0250, 0.0100, 0.0075, 0.0050])
 
     print("calc exact")
     start = time.time()
@@ -31,7 +31,7 @@ def guise_error_calculation():
         # print(f"calc guise for {i}")
         start = time.time()
         guise: Guise = Guise(complex)
-        guise.run(10000, 10000)
+        guise.run(1000, 1000)
         print('---------- guise -------------')
         guise.statistics.write()
         print('-----------------------')

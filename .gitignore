@@ -196,3 +196,4 @@ input/*
 
 # Ignore guise error calculation files
 files/
+t-files/
