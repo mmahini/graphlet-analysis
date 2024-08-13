@@ -51,12 +51,6 @@ class MiniplexTemplates():
         self.miniplexes[16] = SimplicialComplexFactory().create_instance_with_set(
             4, [[0, 1], [0, 2], [0, 3], [1, 2], [1, 3], [2, 3], [0, 1, 2], [0, 1, 3], [0, 2, 3], [1, 2, 3]])
         self.miniplexes[17] = SimplicialComplexFactory().create_instance_with_set(
-            4, [[0, 1], [0, 2], [0, 3], [1, 2], [1, 3], [2, 3], [1, 2, 3], [0, 1, 2, 3]])
-        self.miniplexes[18] = SimplicialComplexFactory().create_instance_with_set(
-            4, [[0, 1], [0, 2], [0, 3], [1, 2], [1, 3], [2, 3], [0, 1, 3], [1, 2, 3], [0, 1, 2, 3]])
-        self.miniplexes[19] = SimplicialComplexFactory().create_instance_with_set(
-            4, [[0, 1], [0, 2], [0, 3], [1, 2], [1, 3], [2, 3], [0, 1, 3], [0, 2, 3], [1, 2, 3], [0, 1, 2, 3]])
-        self.miniplexes[20] = SimplicialComplexFactory().create_instance_with_set(
             4, [[0, 1], [0, 2], [0, 3], [1, 2], [1, 3], [2, 3], [0, 1, 2], [0, 1, 3], [0, 2, 3], [1, 2, 3], [0, 1, 2, 3]])
 
         return self.miniplexes

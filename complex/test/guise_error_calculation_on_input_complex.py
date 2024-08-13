@@ -24,6 +24,7 @@ def guise_error_calculation():
     exact.run()
     print('---------- exact -------------')
     exact.statistics.write()
+    exact.statistics.write_roles()
     print('-----------------------')
     # print(f"calc exact at {time.time() - start} seconds")
     

@@ -48,7 +48,7 @@ class SimplexUtils():
                 elif k == 7:
                     type = self.calc_miniplex_type_between_7_9(complex)
                 elif k == 12:
-                    type = self.calc_miniplex_type_between_12_20(complex)
+                    type = self.calc_miniplex_type_between_12_17(complex)
                 else:
                     type = k
                 break
@@ -85,7 +85,7 @@ class SimplexUtils():
         else:
             return WRONG_MINIPLEX_TYPE
 
-    def calc_miniplex_type_between_12_20(self, complex: SimplicialComplex) -> int:
+    def calc_miniplex_type_between_12_17(self, complex: SimplicialComplex) -> int:
         if len(complex.quartets) == 0:
             if len(complex.triplets) == 0:
                 return 12
@@ -98,13 +98,6 @@ class SimplexUtils():
             elif len(complex.triplets) == 4:
                 return 16
         elif len(complex.quartets) == 1:
-            if len(complex.triplets) == 1:
-                return 17
-            elif len(complex.triplets) == 2:
-                return 18
-            elif len(complex.triplets) == 3:
-                return 19
-            elif len(complex.triplets) == 4:
-                return 20
+            return 17
 
         return WRONG_MINIPLEX_TYPE

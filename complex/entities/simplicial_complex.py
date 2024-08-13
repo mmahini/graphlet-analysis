@@ -8,8 +8,8 @@ class SimplicialComplex(TopologicalObject):
     vertices: set[int]
     triplets: set[tuple]
     quartets: set[tuple]
-    mark: dict()
-    nei: dict()
+    mark: dict[int, set[int]]
+    nei: dict[int, set[int]]
 
     def __init__(self):
         self.e = -1
