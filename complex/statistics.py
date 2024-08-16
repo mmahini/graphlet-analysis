@@ -26,7 +26,7 @@ class MiniplexStatistics():
         for v in complex.vertices:
             for n in complex.nei[v]:
                 if v < n:
-                    self.edges_role[tuple([v,n])] = RoleUtils().create_for_vertices()
+                    self.edges_role[tuple([v,n])] = RoleUtils().create_for_edges()
             
         self.triplets_role: dict[tuple, dict] = dict()
         for t in complex.triplets:
@@ -56,22 +56,46 @@ class MiniplexStatistics():
     def calc_vertex_role(self, miniplex: Miniplex, miniplex_type=-1):
         for v in miniplex.vertices:
             if miniplex_type == 0:
-                self.vertices_role[v][1] += 0.5
+                self.vertices_role[v][1] += 1
+                #
+                for n in miniplex.nei[v]:
+                    if v < n:
+                        self.edges_role[tuple([v,n])][2] += 1
             elif miniplex_type == 1:
                 if len(miniplex.nei[v]) > 1:
                     self.vertices_role[v][3] += 1
                 else:
                     self.vertices_role[v][4] += 1
+                #    
+                for n in miniplex.nei[v]:
+                    if v < n:
+                        self.edges_role[tuple([v,n])][5] += 1
             elif miniplex_type in (2, 3):
                 if len(miniplex.triplets) > 0:
                     self.vertices_role[v][8] += 1
+                    #
+                    for n in miniplex.nei[v]:
+                        if v < n:
+                            self.edges_role[tuple([v,n])][9] += 1
                 else:
                     self.vertices_role[v][6] += 1
+                    #
+                    for n in miniplex.nei[v]:
+                        if v < n:
+                            self.edges_role[tuple([v,n])][7] += 1
             elif miniplex_type == 4:
                 if len(miniplex.nei[v]) > 1:
                     self.vertices_role[v][11] += 1
+                    #
+                    for n in miniplex.nei[v]:
+                        if v < n and len(miniplex.nei[v]) > 1:
+                            self.edges_role[tuple([v,n])][13] += 1
                 else:
                     self.vertices_role[v][12] += 1
+                    #
+                    for n in miniplex.nei[v]:
+                        if v < n:
+                            self.edges_role[tuple([v,n])][14] += 1
             elif miniplex_type in (5, 6):
                 if len(miniplex.nei[v]) == 1:
                     if len(miniplex.triplets) > 0:
@@ -81,58 +105,155 @@ class MiniplexStatistics():
                 elif len(miniplex.nei[v]) == 2:
                     if len(miniplex.triplets) > 0:
                         self.vertices_role[v][21] += 1
+                        #
+                        for n in miniplex.nei[v]:
+                            if v < n and len(miniplex.nei[n]) == 2:
+                                self.edges_role[tuple([v,n])][24] += 1
                     else:
                         self.vertices_role[v][15] += 1
+                        #
+                        for n in miniplex.nei[v]:
+                            if v < n and len(miniplex.nei[n]) == 2:
+                                self.edges_role[tuple([v,n])][18] += 1
                 else:
                     if len(miniplex.triplets) > 0:
                         self.vertices_role[v][22] += 1
+                        #
+                        for n in miniplex.nei[v]:
+                            if v < n:
+                                if len(miniplex.nei[n]) == 1:
+                                    self.edges_role[tuple([v,n])][26] += 1
+                                else:
+                                    self.edges_role[tuple([v,n])][25] += 1
                     else:
                         self.vertices_role[v][16] += 1
+                        #
+                        for n in miniplex.nei[v]:
+                            if v < n:
+                                if len(miniplex.nei[n]) == 1:
+                                    self.edges_role[tuple([v,n])][20] += 1
+                                else:
+                                    self.edges_role[tuple([v,n])][19] += 1
             elif miniplex_type in (7,8,9):
                 if len(miniplex.nei[v]) == 2:
                     if len(miniplex.triplets) == 0:
                         self.vertices_role[v][28] += 1
+                        #
+                        for n in miniplex.nei[v]:
+                            if v < n:
+                                self.edges_role[tuple([v,n])][30] += 1
                     elif len(miniplex.triplets) == 1:
                         if v in miniplex.triplets[0]:
                             self.vertices_role[v][32] += 1
+                            #
+                            for n in miniplex.nei[v]:
+                                if v < n:
+                                    self.edges_role[tuple([v,n])][35] += 1
                         else:
                             self.vertices_role[v][34] += 1
+                            #
+                            for n in miniplex.nei[v]:
+                                if v < n:
+                                    self.edges_role[tuple([v,n])][37] += 1
                     else:
                         self.vertices_role[v][39] += 1
+                        #
+                        for n in miniplex.nei[v]:
+                            if v < n:
+                                self.edges_role[tuple([v,n])][41] += 1
                 else:
                     if len(miniplex.triplets) == 0:
                         self.vertices_role[v][29] += 1
+                        #
+                        for n in miniplex.nei[v]:
+                            if v < n and len(miniplex.nei[n]) == 3:
+                                self.edges_role[tuple([v,n])][31] += 1
                     elif len(miniplex.triplets) == 1:
                         self.vertices_role[v][33] += 1
+                        #
+                        for n in miniplex.nei[v]:
+                            if v < n and len(miniplex.nei[n]) == 3:
+                                self.edges_role[tuple([v,n])][36] += 1
                     else:
                         self.vertices_role[v][40] += 1
+                        #
+                        for n in miniplex.nei[v]:
+                            if v < n and len(miniplex.nei[n]) == 3:
+                                self.edges_role[tuple([v,n])][42] += 1
             elif miniplex_type == 10:
                 if len(miniplex.nei[v]) > 1:
                     self.vertices_role[v][44] += 1
                 else:
                     self.vertices_role[v][45] += 1
+                #
+                for n in miniplex.nei[v]:
+                    if v < n:
+                        self.edges_role[tuple([v,n])][46] += 1
             elif miniplex_type == 11:
                 self.vertices_role[v][47] += 1
+                #
+                for n in miniplex.nei[v]:
+                    if v < n:
+                        self.edges_role[tuple([v,n])][48] += 1
             elif miniplex_type in (12, 13, 14, 15, 16, 17):
                 if len(miniplex.quartets) == 1:
                     self.vertices_role[v][70] += 1
+                    #
+                    for n in miniplex.nei[v]:
+                        if v < n:
+                            self.edges_role[tuple([v,n])][71] += 1
+                elif len(miniplex.triplets) == 0:
+                    self.vertices_role[v][49] += 1
+                    #
+                    for n in miniplex.nei[v]:
+                        if v < n:
+                            self.edges_role[tuple([v,n])][50] += 1
                 elif len(miniplex.triplets) == 1:
                     if v in miniplex.triplets[0]:
                         self.vertices_role[v][51] += 1
+                        #
+                        for n in miniplex.nei[v]:
+                            if v < n and n in miniplex.triplets[0]:
+                                self.edges_role[tuple([v,n])][53] += 1
                     else:
                         self.vertices_role[v][52] += 1
+                        #
+                        for n in miniplex.nei[v]:
+                            if v < n:
+                                self.edges_role[tuple([v,n])][54] += 1
                 elif len(miniplex.triplets) == 2:
                     if v in miniplex.triplets[0] and v in miniplex.triplets[1]:
                         self.vertices_role[v][57] += 1
+                        #
+                        for n in miniplex.nei[v]:
+                            if n in miniplex.triplets[0] and n in miniplex.triplets[1]:
+                                self.edges_role[tuple([v,n])][59] += 1
+                            else:
+                                self.edges_role[tuple([v,n])][58] += 1
                     else:
                         self.vertices_role[v][56] += 1
+                        #
+                        for n in miniplex.nei[v]:
+                            if v < n and n not in miniplex.triplets[0] and n not in miniplex.triplets[1]:
+                                self.edges_role[tuple([v,n])][60] += 1
                 elif len(miniplex.triplets) == 3:
                     if v in miniplex.triplets[0] and v in miniplex.triplets[1] and v in miniplex.triplets[2]:
                         self.vertices_role[v][63] += 1
+                        #
+                        for n in miniplex.nei[v]:
+                            if v < n:
+                                self.edges_role[tuple([v,n])][65] += 1
+                            for n2 in miniplex.nei[v]:
+                                if n < n2:
+                                    self.edges_role[tuple([n,n2])][64 ] += 1
                     else:
                         self.vertices_role[v][62] += 1
                 elif len(miniplex.triplets) == 4:
                     self.vertices_role[v][67] += 1
+                    #
+                    for n in miniplex.nei[v]:
+                        if v < n:
+                            self.edges_role[tuple([v,n])][68] += 1
 
     def write_frequencies(self):
         print("Miniplex Frequencies:")
@@ -153,7 +274,7 @@ class MiniplexStatistics():
             d = dict()
             for (k2, v2) in v.items():
                 if v2 != 0:
-                    d[k] = self.edges_role[k][k2]
+                    d[k2] = self.edges_role[k][k2]
             print(f"{k}: {d}")
         
         print("triplets role:")
@@ -161,7 +282,7 @@ class MiniplexStatistics():
             d = dict()
             for (k2, v2) in v.items():
                 if v2 != 0:
-                    d[k] = self.triplets_role[k][k2]
+                    d[k2] = self.triplets_role[k][k2]
             print(f"{k}: {d}")
 
     def write(self):
