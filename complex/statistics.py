@@ -77,6 +77,9 @@ class MiniplexStatistics():
                     for n in miniplex.nei[v]:
                         if v < n:
                             self.edges_role[tuple([v,n])][9] += 1
+                    #
+                    for t in miniplex.triplets:
+                        self.triplets_role[tuple(sorted(t))][10] += 1
                 else:
                     self.vertices_role[v][6] += 1
                     #
@@ -134,6 +137,10 @@ class MiniplexStatistics():
                                     self.edges_role[tuple([v,n])][20] += 1
                                 else:
                                     self.edges_role[tuple([v,n])][19] += 1
+                #
+                if len(miniplex.triplets) > 0:
+                    for t in miniplex.triplets:
+                        self.triplets_role[tuple(sorted(t))][27] += 1
             elif miniplex_type in (7,8,9):
                 if len(miniplex.nei[v]) == 2:
                     if len(miniplex.triplets) == 0:
@@ -155,12 +162,18 @@ class MiniplexStatistics():
                             for n in miniplex.nei[v]:
                                 if v < n:
                                     self.edges_role[tuple([v,n])][37] += 1
+                        #
+                        for t in miniplex.triplets:
+                           self.triplets_role[tuple(sorted(t))][38] += 1
                     else:
                         self.vertices_role[v][39] += 1
                         #
                         for n in miniplex.nei[v]:
                             if v < n:
                                 self.edges_role[tuple([v,n])][41] += 1
+                        #
+                        for t in miniplex.triplets:
+                           self.triplets_role[tuple(sorted(t))][43] += 1
                 else:
                     if len(miniplex.triplets) == 0:
                         self.vertices_role[v][29] += 1
@@ -202,6 +215,9 @@ class MiniplexStatistics():
                     for n in miniplex.nei[v]:
                         if v < n:
                             self.edges_role[tuple([v,n])][71] += 1
+                    #
+                    for t in miniplex.triplets:
+                        self.triplets_role[tuple(sorted(t))][72] += 1
                 elif len(miniplex.triplets) == 0:
                     self.vertices_role[v][49] += 1
                     #
@@ -221,6 +237,9 @@ class MiniplexStatistics():
                         for n in miniplex.nei[v]:
                             if v < n:
                                 self.edges_role[tuple([v,n])][54] += 1
+                    #
+                    for t in miniplex.triplets:
+                        self.triplets_role[tuple(sorted(t))][55] += 1
                 elif len(miniplex.triplets) == 2:
                     if v in miniplex.triplets[0] and v in miniplex.triplets[1]:
                         self.vertices_role[v][57] += 1
@@ -236,6 +255,9 @@ class MiniplexStatistics():
                         for n in miniplex.nei[v]:
                             if v < n and n not in miniplex.triplets[0] and n not in miniplex.triplets[1]:
                                 self.edges_role[tuple([v,n])][60] += 1
+                    #
+                    for t in miniplex.triplets:
+                        self.triplets_role[tuple(sorted(t))][61] += 1
                 elif len(miniplex.triplets) == 3:
                     if v in miniplex.triplets[0] and v in miniplex.triplets[1] and v in miniplex.triplets[2]:
                         self.vertices_role[v][63] += 1
@@ -248,12 +270,19 @@ class MiniplexStatistics():
                                     self.edges_role[tuple([n,n2])][64 ] += 1
                     else:
                         self.vertices_role[v][62] += 1
+                    #
+                    for t in miniplex.triplets:
+                        self.triplets_role[tuple(sorted(t))][66] += 1
                 elif len(miniplex.triplets) == 4:
                     self.vertices_role[v][67] += 1
                     #
                     for n in miniplex.nei[v]:
                         if v < n:
                             self.edges_role[tuple([v,n])][68] += 1
+                    #
+                    for t in miniplex.triplets:
+                        self.triplets_role[tuple(sorted(t))][69] += 1
+            
 
     def write_frequencies(self):
         print("Miniplex Frequencies:")
