@@ -27,6 +27,8 @@ def guise_error_calculation():
         
         exact: Exact = Exact(complex)
         exact.run()
+        exact.statistics.write()
+        exact.statistics.write_roles()
     
         guise: Guise = Guise(complex)
         guise.run(1000, 1000)

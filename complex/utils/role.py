@@ -34,7 +34,7 @@ class RoleUtils():
             return 8
         elif role in (28, 29, 32, 33, 34, 39, 40, 41):
             return 12
-        elif role in (49, 51, 52, 56, 57, 62, 63, 67):
+        elif role in (49, 51, 52, 56, 57, 62, 63, 67, 70):
             return 24
         else:
             return 1
@@ -48,7 +48,7 @@ class RoleUtils():
             return 12
         elif role in (50, 53, 54, 58, 64, 65, 68):
             return 24
-        elif role in (59, ):
+        elif role in (59, 71):
             return 48
         else:
             return 1
@@ -56,13 +56,11 @@ class RoleUtils():
     def triplets_coefficient(self, role) -> int:
         if role in (10,):
             return 3
-        elif role in (55,):
-            return 4
         elif role in (27,):
             return 8
-        elif role in (38, 43, 55, 72):
+        elif role in (38, 43, 55):
             return 24
-        elif role in (61, 66, 69):
+        elif role in (61, 66, 69, 72):
             return 96
         else:
             return 1

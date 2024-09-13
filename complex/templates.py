@@ -3,7 +3,7 @@ from utils.singleton import singleton
 from complex.entities.simplicial_complex import SimplicialComplex
 from complex.core.simplicial_complex_factory import SimplicialComplexFactory
 
-NUM_OF_MINIPLEXES = 21
+NUM_OF_MINIPLEXES = 18
 
 
 @singleton

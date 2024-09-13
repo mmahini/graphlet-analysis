@@ -206,8 +206,7 @@ class MiniplexStatistics():
                     self.vertices_role[v][70] += 1
                     #
                     for n in miniplex.nei[v]:
-                        if v < n:
-                            self.edges_role[tuple([v,n])][71] += 1
+                        self.edges_role[tuple(sorted([v,n]))][71] += 1
                     #
                     for t in miniplex.triplets:
                         self.triplets_role[tuple(sorted(t))][72] += 1

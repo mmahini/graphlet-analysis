@@ -73,17 +73,17 @@ class Exact(MfdAglorithm):
                         if e == 6:
                             if len(miniplex.triplets) > 3:
                                 if len(miniplex.quartets) > 0:
-                                    self.statistics.add_statistic(miniplex, 20)
+                                    self.statistics.add_statistic(miniplex, 17)
                                 else:
                                     self.statistics.add_statistic(miniplex, 16)
                             elif len(miniplex.triplets) > 2:
                                 if len(miniplex.quartets) > 0:
-                                    self.statistics.add_statistic(miniplex, 19)
+                                    self.statistics.add_statistic(miniplex, 17)
                                 else:
                                     self.statistics.add_statistic(miniplex, 15)
                             elif len(miniplex.triplets) > 1:
                                 if len(miniplex.quartets) > 0:
-                                    self.statistics.add_statistic(miniplex, 18)
+                                    self.statistics.add_statistic(miniplex, 17)
                                 else:
                                     self.statistics.add_statistic(miniplex, 14)
                             elif len(miniplex.triplets) > 0:
