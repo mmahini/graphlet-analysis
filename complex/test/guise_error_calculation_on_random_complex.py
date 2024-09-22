@@ -19,7 +19,11 @@ def guise_error_calculation():
     t = float(0.80)  # probability of triplets ,between 0 and 1
     q = float(0.90)  # probability of quartets ,between 0 and 1
 
-    miniplex_count_ed = EpsilonDelta([0.0250, 0.0100, 0.0075, 0.0050])
+    epsilons = [0.0020, 0.0010, 0.0005, 0.0001]
+    miniplex_count_ed = EpsilonDelta(epsilons)
+    vertices_roles_ed = EpsilonDelta(epsilons)
+    edges_roles_ed = EpsilonDelta(epsilons)
+    triplets_roles_ed = EpsilonDelta(epsilons)
     
     for i in range(20):
         complex: SimplicialComplex = SimplicialComplexFactory().create_random_instance(n, p, t, q)
@@ -28,7 +32,6 @@ def guise_error_calculation():
         exact: Exact = Exact(complex)
         exact.run()
         exact.statistics.write()
-        exact.statistics.write_roles()
     
         guise: Guise = Guise(complex)
         guise.run(1000, 1000)
@@ -36,11 +39,32 @@ def guise_error_calculation():
         error_mc = MfdUtils().calc_miniplex_count_error(guise, exact)
         miniplex_count_ed.append_graphlet_count_error(error_mc)
 
+        error_vr = MfdUtils().calc_vertices_role_error(guise, exact)
+        vertices_roles_ed.append_vertex_graphlet_degree_centrality_error(error_vr)
+        
+        error_er = MfdUtils().calc_edges_role_error(guise, exact)
+        edges_roles_ed.append_vertex_graphlet_degree_centrality_error(error_er)
+        
+        error_tr = MfdUtils().calc_triplets_role_error(guise, exact)
+        triplets_roles_ed.append_vertex_graphlet_degree_centrality_error(error_tr)
+
     print("calc diff")
     miniplex_count_ed.calc_delta()
+    vertices_roles_ed.calc_delta()
+    edges_roles_ed.calc_delta()
+    triplets_roles_ed.calc_delta()
 
     print("\nminiplex count")
     miniplex_count_ed.write()
+
+    print("\nvertices role")
+    vertices_roles_ed.write()
+    
+    print("\nedges role")
+    edges_roles_ed.write()
+    
+    print("\ntriplets role")
+    triplets_roles_ed.write()
 
 
 if __name__ == "__main__":
