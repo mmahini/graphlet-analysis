@@ -18,16 +18,19 @@ class MiniplexStatistics():
         for n in range(NUM_OF_MINIPLEXES):
             self.miniplexes[n] = set()
 
+        self.total_num_of_vertices_roles = 0
         self.vertices_role: dict[int, dict] = dict()
         for v in complex.vertices:
             self.vertices_role[v] = RoleUtils().create_for_vertices()
-            
+
+        self.total_num_of_edges_roles = 0
         self.edges_role: dict[tuple, dict] = dict()
         for v in complex.vertices:
             for n in complex.nei[v]:
                 if v < n:
                     self.edges_role[tuple([v,n])] = RoleUtils().create_for_edges()
             
+        self.total_num_of_triplets_roles = 0
         self.triplets_role: dict[tuple, dict] = dict()
         for t in complex.triplets:
             self.triplets_role[tuple(t)] = RoleUtils().create_for_triplets()
@@ -46,14 +49,14 @@ class MiniplexStatistics():
             self.miniplex_cnt[miniplex_type] += 1
             self.total_num_of_miniplexes += 1
         
-        self.calc_vertex_role(miniplex, miniplex_type)
+        self.calc_roles(miniplex, miniplex_type)
 
     def calculate_frequencies(self):
         for i in range(NUM_OF_MINIPLEXES):
             self.miniplex_freq[i] = self.miniplex_cnt[i] / \
                 self.total_num_of_miniplexes
 
-    def calc_vertex_role(self, miniplex: Miniplex, miniplex_type=-1):
+    def calc_roles(self, miniplex: Miniplex, miniplex_type=-1):
         for v in miniplex.vertices:
             if miniplex_type == 0:
                 self.vertices_role[v][1] += 1
@@ -273,7 +276,24 @@ class MiniplexStatistics():
                     #
                     for t in miniplex.triplets:
                         self.triplets_role[tuple(sorted(t))][69] += 1
-            
+
+    def calc_total_vertices_roles(self):
+        if self.total_num_of_vertices_roles == 0:
+            for (k,v) in self.vertices_role.items():
+                for (k2, v2) in v.items():
+                    self.total_num_of_vertices_roles += v2
+    
+    def calc_total_edges_roles(self):
+        if self.total_num_of_edges_roles == 0:
+            for (k,v) in self.edges_role.items():
+                for (k2, v2) in v.items():
+                    self.total_num_of_edges_roles += v2
+    
+    def calc_total_triplets_roles(self):
+        if self.total_num_of_triplets_roles == 0:
+            for (k,v) in self.triplets_role.items():
+                for (k2, v2) in v.items():
+                    self.total_num_of_triplets_roles += v2
 
     def write_frequencies(self):
         print("Miniplex Frequencies:")

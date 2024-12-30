@@ -14,7 +14,7 @@ from complex.utils.mfd import MfdUtils
 
 # Test guise graphlet count diff with exact count
 def guise_error_calculation():
-    n = int(100)    # number of nodes in complex
+    n = int(200)    # number of nodes in complex
     p = float(0.12)  # probability of vertices ,between 0 and 1
     t = float(0.80)  # probability of triplets ,between 0 and 1
     q = float(0.90)  # probability of quartets ,between 0 and 1
@@ -25,7 +25,12 @@ def guise_error_calculation():
     edges_roles_ed = EpsilonDelta(epsilons)
     triplets_roles_ed = EpsilonDelta(epsilons)
     
-    for i in range(20):
+    centerality_epsilons = [0.0005, 0.0002, 0.0001, 0.00005]
+    vertices_role_centerality_ed = EpsilonDelta(centerality_epsilons)
+    edges_role_centerality_ed = EpsilonDelta(centerality_epsilons)
+    triplets_role_centerality_ed = EpsilonDelta(centerality_epsilons)
+    
+    for i in range(2):
         complex: SimplicialComplex = SimplicialComplexFactory().create_random_instance(n, p, t, q)
         print(f"run {i} - #(edge,triple,tethra) = #({complex.countE()},{len(complex.triplets)},{len(complex.quartets)})")
         
@@ -47,12 +52,24 @@ def guise_error_calculation():
         
         error_tr = MfdUtils().calc_triplets_role_error(guise, exact)
         triplets_roles_ed.append_vertex_graphlet_degree_centrality_error(error_tr)
+        
+        error_vrc = MfdUtils().calc_vertices_role_centerality_error(guise, exact)
+        vertices_role_centerality_ed.append_vertex_graphlet_degree_centrality_error(error_vrc)
+        
+        error_erc = MfdUtils().calc_edges_role_centerality_error(guise, exact)
+        edges_role_centerality_ed.append_vertex_graphlet_degree_centrality_error(error_erc)
+        
+        error_trc = MfdUtils().calc_triplets_role_centerality_error(guise, exact)
+        triplets_role_centerality_ed.append_vertex_graphlet_degree_centrality_error(error_trc)
 
     print("calc diff")
     miniplex_count_ed.calc_delta()
     vertices_roles_ed.calc_delta()
     edges_roles_ed.calc_delta()
     triplets_roles_ed.calc_delta()
+    vertices_role_centerality_ed.calc_delta()
+    edges_role_centerality_ed.calc_delta()
+    triplets_role_centerality_ed.calc_delta()
 
     print("\nminiplex count")
     miniplex_count_ed.write()
@@ -65,6 +82,15 @@ def guise_error_calculation():
     
     print("\ntriplets role")
     triplets_roles_ed.write()
+    
+    print("\nvertices role centerality")
+    vertices_role_centerality_ed.write()
+    
+    print("\nedges role centerality")
+    edges_role_centerality_ed.write()
+    
+    print("\ntriplets role centerality")
+    triplets_role_centerality_ed.write()
 
 
 if __name__ == "__main__":

@@ -65,3 +65,6 @@ class RoleUtils():
         else:
             return 1
     
+    def weight(self, role) -> int:
+        return 1
+    
