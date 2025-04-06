@@ -36,3 +36,6 @@ example-simplices.xt
 3
 4
 5
+
+
+coauth DBLP 2017 simplices: https://www.cs.cornell.edu/~arb/data/coauth-DBLP/index.html
