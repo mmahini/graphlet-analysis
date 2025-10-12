@@ -46,6 +46,6 @@ class EpsilonDelta():
             self.delta[e] = 1 - (self.out_range[e]/self.samples)
 
     def write(self):
-        print(f"Delta Statistics for Every Epsilon (samples: {self.samples})")
+        print(f"Delta Statistics for Every Epsilon (# of items: {self.samples})")
         for e in self.epsilon:
             print(f"{e}: {self.delta[e]*100}")
