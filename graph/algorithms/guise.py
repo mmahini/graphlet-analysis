@@ -74,8 +74,8 @@ class Guise(GfdAglorithm):
                 sub_graph = selected_neighbor
                 neighbors = neighbors_of_neighbor
 
-            if counting:
-                self.gs.add_to_statistics(sub_graph, allow_duplicate=True)
+            # if counting:
+            #     self.gs.add_to_statistics(sub_graph, allow_duplicate=True)
 
         return sub_graph
 
@@ -94,7 +94,10 @@ class Guise(GfdAglorithm):
         # counting
         if (self.log):
             print("guise :: counting started ...")
-        self.random_walk(random_sub_graphlet, steps, counting=True)
+
+        for i in range(steps):
+            sub_graph = self.random_walk(random_sub_graphlet, stationary_steps, counting=False)
+            self.gs.add_to_statistics(sub_graph, allow_duplicate=True)
 
         self.gs.calculate_frequencies()
         if (self.log):
